@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Login Web</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      width: 100%;
+      background: url('background.png');
+      background-position: center;
+      background-size: cover;
+    }
+
+    .form-box {
+      position: relative;
+      width: 400px;
+      height: 450px;
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      border-radius: 20px;
+      backdrop-filter: blur(15px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h2 {
+      font-size: 2em;
+      color: #fff;
+      text-align: center;
+    }
+
+    .inputbox {
+      position: relative;
+      margin: 30px 0;
+      width: 310px;
+      border-bottom: 2px solid hotpink;
+    }
+
+    .inputbox label {
+      position: absolute;
+      top: 50%;
+      left: 5px;
+      transform: translateY(-50%);
+      color: pink;
+      font-size: 1em;
+      transition: .5s;
+    }
+
+    input:focus~label,
+    input:valid~label {
+      top: -5px;
+    }
+
+    .inputbox input {
+      width: 100%;
+      height: 50px;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-size: 1em;
+      padding: 0 35px 0 5px;
+      color: #fff;
+    }
+
+    .forget {
+      margin: -15px 0 15px;
+      font-size: .9em;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+    }
+
+    .forget a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600
+    }
+
+    .forget a:hover {
+      text-decoration: underline;
+    }
+
+    button {
+      width: 100%;
+      height: 40px;
+      border-radius: 40px;
+      background: #fff;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: 600;
+    }
+
+    .register {
+      font-size: .9em;
+      color: #fff;
+      text-align: center;
+      margin: 25px 0 10px;
+    }
+
+    .register p a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .register p a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <section>
+    <div class="form-box">
+      <div class="form-value">
+        <form id="loginForm">
+          <h2>Login</h2>
+          <div class="inputbox">
+            <input type="text" id="username" required>
+            <label>Username</label>
+          </div>
+          <div class="inputbox">
+            <input type="password" id="password" required>
+            <label>Password</label>
+          </div>
+          <div class="forget">
+            <p>Forget <a href="#">Password?</a></p>
+          </div>
+          <button type="submit">Log in</button>
+          <div class="register">
+            <p>Don't have an account? <a href="#">Register</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+      e.preventDefault(); // Mencegah reload
+
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      // Data login contoh
+      const validUsername = 'Asyaalala';
+      const validPassword = 'asyacantikk';
+
+      if (username === validUsername && password === validPassword) {
+        alert('semoga suka ^^');
+
+        // Redirect ke halaman setelah login (ganti sesuai kebutuhan)
+        window.location.href = 'flower.html'; // Bisa juga 'https://example.com'
+      } else {
+        alert('Login Gagal. Username atau Password salah!');
+      }
+    });
+  </script>
+</body>
+
+</html>
