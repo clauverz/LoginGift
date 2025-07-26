@@ -69,6 +69,83 @@ let songs = [
             { time: 111.8, text: "Bila kau tak di sampingku" }
         ]
     },
+ {
+        id: 2,
+        title: "Dan",
+        artist: "Sheila On 7",
+        album: "",
+        albumArtUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUSSmQJ-Eyu5TydLYWrKEgwnBrO1V13ui6MxPMg7z6UMYMNYSQyWwuIFI&s=10",
+        audioSrc: "audio/Dan.mp3",
+        videoBgSrc: "videos/dua.mp4", // Path video background khusus lagu ini
+        // Lirik dengan timestamp dalam detik
+        lyrics: [
+            { "time": 15.8, "text": "Dan..." },
+            { "time": 18.8, "text": "Dan bila esok datang kembali" },
+            { "time": 26.4,"text": "Seperti sedia kala di mana kau bisa bercanda" },
+            { "time": 31., "text": "Dan perlahan kau pun " },
+            { "time": 38, "text": "lupakan aku mimpi burukmu" }, 
+            { "time": 43.7, "text": "Dimana telah kutancapkan duri tajam" },
+            { "time": 49.5, "text": "Kau pun menangis, menangis sedih" },
+            { "time": 57.7, "text": "Maafkan aku..." },
+            { "time": 61.9, "text": "Dan bukan maksudku, bukan inginku melukaimu" },
+            { "time": 74.2, "text": "Sadarkah kau di sini ku pun terluka" },
+            { "time": 80., "text": "Melupakanmu, menepikanmu" },
+            { "time": 87.6, "text": "Maafkan aku" },
+            { "time": 91.3, "text": "Lupakanlah saja diriku" },
+            { "time": 94.8, "text": "Bila itu bisa membuatmu kembali bersinar dan berpijar seperti dulu kala" },
+            { "time": 106.6, "text": "Caci maki saja diriku" },
+            { "time": 110.4, "text": "Bila itu bisa membuatmu kembali bersinar dan berpijar seperti dulu kala" }
+                ]
+    },    
+    {
+        id: 3,
+        title: "I Wanna Be Yours",
+        artist: "Arctic Monkeys",
+        album: "AM",
+        albumArtUrl: "https://i.ytimg.com/vi/fJLQCf4mFP0/hqdefault.jpg",
+        audioSrc: "audio/I Wanna Be Yours.mp3",
+        videoBgSrc: "videos/tiga.mp4",
+        lyrics: [
+            { time: 18.4, text: "I wanna be your vacuum cleaner" },
+            { time: 22., text: "Breathing in your dust" },
+            { time: 25.4, text: "I wanna be your Ford Cortina" },
+            { time: 29, text: "I will never rust" },
+            { time: 32.1, text: "If you like your coffee hot" },
+            { time: 36, text: "Let me be your coffee pot" },
+            { time: 39.7, text: "You call the shots, babe" },
+            { time: 42, text: "I just wanna be yours" },
+
+            { time: 46.2, text: "Secrets I have held in my heart" },
+            { time: 50, text: "Are harder to hide than I thought" },
+            { time: 53.5, text: "Maybe I just wanna be yours" },
+            { time: 57, text: "I wanna be yours, I wanna be yours" },
+            { time: 62, text: "Wanna be yours, wanna be yours, wanna be yours" },
+
+            { time: 75, text: "Let me be your 'leccy meter and I'll never run out" },
+            { time: 81.6, text: "Let me be the portable heater that you'll get cold without" },
+            { time: 89.2, text: "I wanna be your setting lotion (wanna be)" },
+            { time: 92.8, text: "Hold your hair in deep devotion (how deep?)" },
+            { time: 96, text: "At least as deep as the Pacific Ocean" },
+            { time: 99.6, text: "I wanna be yours" },
+
+            { time: 103.3, text: "Secrets I have held in my heart" },
+            { time: 106.8, text: "Are harder to hide than I thought" },
+            { time: 110, text: "Maybe I just wanna be yours" },
+            { time: 113.7, text: "I wanna be yours, I wanna be yours" },
+            { time: 119, text: "Wanna be yours, wanna be yours, wanna be yours" },
+            { time: 129.8, text: "Wanna be yours, wanna be yours, wanna be yours" },
+            { time: 140, text: "Wanna be yours, wanna be yours" },
+
+            { time: 146, text: "I wanna be your vacuum cleaner (Wanna be yours)" },
+            { time: 150, text: "Breathing in your dust (Wanna be yours)" },
+            { time: 153.1, text: "I wanna be your Ford Cortina (Wanna be yours)" },
+            { time: 157, text: "I will never rust (Wanna be yours)" },
+            { time: 159.7, text: "I just wanna be yours (Wanna be yours)" },
+            { time: 163, text: "I just wanna be yours (Wanna be yours)" },
+            { time: 166.7, text: "I just wanna be yours (Wanna be yours)" }
+        ]
+    },
+
 ];
 let currentSongIndex = 0;
 let isPlaying = false;
