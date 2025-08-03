@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4U</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fce7f3 0%, #f3e8ff 50%, #e0e7ff 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-top: 30px;
+        }
+
+        .header h1 {
+            color: #374151;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .date {
+            color: #6b7280;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .message-card {
+            background: white;
+            border-radius: 24px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            margin-bottom: 30px;
+            border: 1px solid #fce7f3;
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .icon {
+            width: 32px;
+            height: 32px;
+            margin: 0 auto 20px;
+            display: block;
+        }
+
+        .message-text {
+            font-size: 18px;
+            color: #374151;
+            line-height: 1.6;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .message-text.fade {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 16px 24px;
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-affirmation {
+            background: linear-gradient(135deg, #f472b6 0%, #ec4899 100%);
+        }
+
+        .btn-affirmation:hover {
+            background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+        }
+
+        .btn-reason {
+            background: linear-gradient(135deg, #f87171 0%, #f472b6 100%);
+        }
+
+        .btn-reason:hover {
+            background: linear-gradient(135deg, #ef4444 0%, #ec4899 100%);
+        }
+
+        .btn-random {
+            background: linear-gradient(135deg, #a78bfa 0%, #6366f1 100%);
+        }
+
+        .btn-random:hover {
+            background: linear-gradient(135deg, #8b5cf6 0%, #4f46e5 100%);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-bottom: 30px;
+        }
+
+        .footer p:first-child {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .footer p:last-child {
+            color: #9ca3af;
+            font-size: 12px;
+        }
+
+        .heart {
+            color: #ec4899;
+            font-size: 24px;
+        }
+
+        .sparkles {
+            color: #fbbf24;
+            font-size: 32px;
+        }
+
+        .message-heart {
+            color: #ef4444;
+            font-size: 32px;
+        }
+
+        .message-circle {
+            color: #3b82f6;
+            font-size: 32px;
+        }
+
+        .calendar {
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .message-card {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>
+                <span class="heart">❤️</span>
+                Buat Dekel Yang Nyebelin
+                <span class="heart">❤️</span>
+            </h1>
+            <div class="date">
+                <span class="calendar">📅</span>
+                <span id="currentDate"></span>
+            </div>
+        </div>
+
+        <!-- Message Card -->
+        <div class="message-card">
+            <div id="messageIcon" class="sparkles">✨</div>
+            <p id="messageText" class="message-text">
+                Loading pesan spesial untukmu...
+            </p>
+        </div>
+
+        <!-- Buttons -->
+        <div class="buttons">
+            <button class="btn btn-affirmation" onclick="showAffirmation()">
+                ✨ Afirmasi Hari Ini
+            </button>
+            
+            <button class="btn btn-reason" onclick="showReason()">
+                ❤️ Kenapa Aku Sayang Kamu
+            </button>
+            
+            <button class="btn btn-random" onclick="getRandomMessage()">
+                💬 Pesan Acak
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Made with 💕 by 🤡</p>
+            <p>• Always for you</p>
+        </div>
+    </div>
+
+    <script>
+        // Array afirmasi dan alasan (customize sesuai pacarmu!)
+        const affirmations = [
+            "Kamu adalah sinar matahari di hari-hariku ☀️",
+            "Senyummu selalu bisa membuat hariku jadi lebih baik 😊",
+            "Kamu kuat, cantik, dan luar biasa dalam segala hal 💪",
+            "Aku bangga dengan semua pencapaianmu 🌟",
+            "Kamu membuatku ingin jadi versi terbaik dari diriku 💕",
+            "Tertawamu adalah suara favoritku di dunia 🎵",
+            "Kamu pantas mendapatkan semua kebahagiaan dunia 🦋",
+            "Setiap hari bersamamu adalah hadiah untukku 🎁",
+            "Kamu memiliki hati yang paling baik yang pernah aku kenal 💖",
+            "Kehadiranmu membuat dunia jadi tempat yang lebih indah 🌺"
+        ];
+
+        const reasons = [
+            "You make me want to be better",
+            "Your support means everything",
+            "Karena kamu itu Meisya Aulia Putri",
+            "Home is wherever you are",
+            "Karena kamu membuat hal sederhana jadi spesial ✨",
+            "Karena kejujuran dan ketulusan hatimu 💎",
+            "Karena cara kamu bisa membuatku tertawa saat sedih 😂",
+            "Karena kamu adalah partner terbaik dalam segala hal 👫",
+            "Semisal ada apa apa bilang gabole di pendem",
+            "Dikurangin Gengsi nya"
+        ];
+
+        let currentMessageType = 'affirmation';
+
+        // Fungsi untuk mendapatkan pesan berdasarkan tanggal
+        function getTodaysMessage(type) {
+            const today = new Date();
+            const startOfYear = new Date(today.getFullYear(), 0, 0);
+            const diff = today - startOfYear;
+            const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+            
+            if (type === 'affirmation') {
+                return affirmations[dayOfYear % affirmations.length];
+            } else {
+                return reasons[dayOfYear % reasons.length];
+            }
+        }
+
+        // Fungsi animasi pesan
+        function animateMessageChange(newMessage, newIcon, type) {
+            const messageText = document.getElementById('messageText');
+            const messageIcon = document.getElementById('messageIcon');
+            
+            // Fade out
+            messageText.classList.add('fade');
+            
+            setTimeout(() => {
+                // Change content
+                messageText.textContent = newMessage;
+                messageIcon.textContent = newIcon;
+                currentMessageType = type;
+                
+                // Fade in
+                messageText.classList.remove('fade');
+            }, 300);
+        }
+
+        // Fungsi untuk menampilkan afirmasi
+        function showAffirmation() {
+            const message = getTodaysMessage('affirmation');
+            animateMessageChange(message, '✨', 'affirmation');
+        }
+
+        // Fungsi untuk menampilkan alasan
+        function showReason() {
+            const message = getTodaysMessage('reason');
+            animateMessageChange(message, '❤️', 'reason');
+        }
+
+        // Fungsi untuk menampilkan pesan acak
+        function getRandomMessage() {
+            const allMessages = [...affirmations, ...reasons];
+            const randomMessage = allMessages[Math.floor(Math.random() * allMessages.length)];
+            animateMessageChange(randomMessage, '💬', 'random');
+        }
+
+        // Fungsi untuk memformat tanggal
+        function formatDate() {
+            const today = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            return today.toLocaleDateString('id-ID', options);
+        }
+
+        // Inisialisasi saat halaman dimuat
+        window.onload = function() {
+            // Set tanggal
+            document.getElementById('currentDate').textContent = formatDate();
+            
+            // Load pesan hari ini
+            setTimeout(() => {
+                showAffirmation();
+            }, 500);
+        };
+
+        // Easter egg: double click pada message card untuk surprise
+        document.querySelector('.message-card').addEventListener('dblclick', function() {
+            const surpriseMessages = [
+                "Kamu adalah keajaiban dalam hidupku 🌟",
+                "Aku mencintaimu lebih dari kata-kata bisa ungkapkan 💕",
+                "Terima kasih sudah menjadi bagian terbaik dari hidupku 🙏",
+                "Kamu adalah alasan aku tersenyum setiap hari 😊"
+            ];
+            const surprise = surpriseMessages[Math.floor(Math.random() * surpriseMessages.length)];
+            animateMessageChange(surprise, '🎉', 'surprise');
+        });
+    </script>
+</body>
+</html>

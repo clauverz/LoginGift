@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue';
+            background: linear-gradient(to bottom, #BDE0FE, #FFC8DD);
+            color: rgb(30,30,40);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background-color 0.5s ease-in-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        body.player-active-bg {
+            background-color: #FFAFCC;
+        }
+
+        body.detail-active-bg {
+            background-color: Pink;
+        }
+
+        .video-background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 0.7s ease-in-out;
+        }
+
+        .video-background-container.active {
+            opacity: 1;
+        }
+
+        .video-background-container video {
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 800px;
+            padding: 1rem;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 2;
+            background-color: transparent;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        header {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: rgb(30,30,40);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .song-list {
+            list-style: none;
+            padding: 0;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .song-list li {
+            background-color: #CDB4DB;
+            padding: 1rem 1.5rem;
+            margin-bottom: 0.75rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .song-list li:hover {
+            background-color: #8a5cf647;
+            transform: translateY(-2px);
+        }
+
+        .song-list .song-art-list {
+            width: 50px;
+            height: 50px;
+            border-radius: 0.5rem;
+            margin-right: 1rem;
+            object-fit: cover;
+        }
+
+        .song-list .song-info-list h3 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1.1rem;
+            color: #ffffff;
+        }
+
+        .song-list .song-info-list p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: rgb(30,30,40);
+        }
+
+        .loading-songs {
+            text-align: center;
+            color: #EDF2FB;
+            font-style: italic;
+            background-color: transparent !important;
+            box-shadow: none !important;
+            cursor: default !important;
+        }
+
+        .loading-songs:hover {
+            background-color: transparent !important;
+            transform: none !important;
+        }
+
+        /* Website Button Styles */
+        .website-buttons-container {
+            width: 100%;
+            max-width: 600px;
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .website-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            min-width: 200px;
+        }
+
+        .website-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .website-btn i {
+            margin-right: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .website-btn.secondary {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #333;
+            box-shadow: 0 8px 25px rgba(252, 182, 159, 0.3);
+        }
+
+        .website-btn.secondary:hover {
+            background: linear-gradient(135deg, #fcb69f 0%, #ffecd2 100%);
+            box-shadow: 0 12px 35px rgba(252, 182, 159, 0.4);
+        }
+
+        .website-btn.tertiary {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
+            box-shadow: 0 8px 25px rgba(168, 237, 234, 0.3);
+        }
+
+        .website-btn.tertiary:hover {
+            background: linear-gradient(135deg, #fed6e3 0%, #a8edea 100%);
+            box-shadow: 0 12px 35px rgba(168, 237, 234, 0.4);
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            background-color: #CDB4DB;
+            color: #fff;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            z-index: 10;
+            transition: background-color 0.2s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #BDE0FE;
+        }
+
+        .back-btn i {
+            margin-right: 0.5rem;
+        }
+
+        .music-player-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 80%;
+            height: 50%;
+            min-height: 90vh;
+            padding-top: 3rem;
+        }
+
+        .music-player-box {
+            background: radial-gradient(circle at top left, #BDE0FE, #FFC8DD);
+            border-radius: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            width: 100%;
+            max-width: 400px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .player-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .album-art-player {
+            width: 80px;
+            height: 80px;
+            border-radius: 0.5rem;
+            margin-right: 1rem;
+            object-fit: cover;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .track-info-player h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 0 0 0.25rem 0;
+            color: rgb(30,30,40);
+        }
+
+        .track-info-player p {
+            font-size: 0.9rem;
+            color: gray;
+            margin: 0;
+        }
+
+        .lyrics-container {
+            height: 180px;
+            overflow-y: auto;
+            background: radial-gradient(circle at top left, #CDB4DB, #CDB4DB);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            color: #d0d0d0;
+        }
+
+        .lyrics-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .lyrics-container::-webkit-scrollbar-track {
+            background: rgb(30,30,40);
+            border-radius: 10px;
+        }
+
+        .lyrics-container::-webkit-scrollbar-thumb {
+            background: #EDF2FB;
+            border-radius: 10px;
+        }
+
+        .lyrics-container::-webkit-scrollbar-thumb:hover {
+            background: #EDF2FB;
+        }
+
+        .player-controls {
+            margin-top: auto;
+        }
+
+        .progress-section-player {
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar-container-player {
+            background-color: rgb(30,30,40);
+            border-radius: 5px;
+            cursor: pointer;
+            height: 10px;
+            width: 100%;
+        }
+
+        .progress-bar-player {
+            background-color: #EDF2FB;
+            width: 0%;
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.1s linear;
+        }
+
+        .time-display-player {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: rgb(30,30,40);
+            margin-top: 0.5rem;
+        }
+
+        .main-controls-player {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .control-btn-player {
+            background: none;
+            border: none;
+            color: #CDB4DB;
+            font-size: 1.6rem;
+            cursor: pointer;
+            transition: color 0.2s ease, transform 0.1s ease;
+            padding: 0.5rem;
+        }
+
+        .control-btn-player:hover {
+            color: #EDF2FB;
+            transform: scale(1.1);
+        }
+
+        .control-btn-player.play-pause-player {
+            font-size: 2.2rem;
+            color: rgb(30,30,40);
+        }
+
+        .control-btn-player.play-pause-player:hover {
+            color: #EDF2FB;
+        }
+
+        .control-btn-player.active-feature {
+            color: #EDF2FB !important;
+        }
+
+        .secondary-controls-player {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 0.5rem;
+            width: 100%;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .control-btn-player.small-icon {
+            font-size: 1.2rem;
+        }
+
+        .volume-control-player, .playback-speed-control {
+            display: flex;
+            align-items: center;
+        }
+
+        .volume-icon-player, .speed-icon {
+            color: rgb(30,30,40);
+            font-size: 0.9rem;
+        }
+
+        .volume-icon-player.ml-1 { 
+            margin-left: 0.25rem; 
+        }
+
+        .volume-slider-player, .speed-slider {
+            width: 80px;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #404040;
+            border-radius: 3px;
+            outline: none;
+            opacity: 0.8;
+            transition: opacity .2s;
+            margin: 0 0.5rem;
+        }
+
+        .volume-slider-player:hover, .speed-slider:hover {
+            opacity: 1;
+        }
+
+        .volume-slider-player::-webkit-slider-thumb, .speed-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            background: #8b5cf6;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .volume-slider-player::-moz-range-thumb, .speed-slider::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            background: #8b5cf6;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        #currentSpeedDisplay {
+            font-size: 0.85rem;
+            color: rgb(30,30,40);
+            min-width: 35px;
+            text-align: right;
+        }
+
+        .footer-credit {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #707070;
+            margin-top: 1.5rem;
+        }
+
+        .song-detail-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at top left, #40205e, #2a103c02);
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            padding: 2rem;
+            width: 100%;
+            max-width: 400px;
+            margin-top: 5rem;
+        }
+
+        .detail-album-art {
+            width: 180px;
+            height: 180px;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+            object-fit: cover;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        .song-detail-container h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+            color: #ffffff;
+        }
+
+        .song-detail-container p {
+            font-size: 1.1rem;
+            color: #b3b3b3;
+            margin: 0.2rem 0;
+        }
+
+        .play-from-detail-btn {
+            background-color: #8b5cf6;
+            color: #fff;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 0.75rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play-from-detail-btn:hover {
+            background-color: #a78bfa;
+            transform: translateY(-2px);
+        }
+
+        .play-from-detail-btn i {
+            margin-right: 0.75rem;
+            font-size: 1.3rem;
+        }
+
+        .lyric-line {
+            color: rgba(255, 255, 255, 0.4);
+            transition: color 0.3s ease;
+            display: block;
+            margin-bottom: 0.2em;
+        }
+
+        .lyric-line.highlight {
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            .song-list li {
+                padding: 0.8rem 1rem;
+            }
+            .song-list .song-info-list h3 {
+                font-size: 1rem;
+            }
+            .music-player-box {
+                max-width: 95%;
+                padding: 1rem;
+            }
+            .player-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .album-art-player {
+                width: 100px;
+                height: 100px;
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            .track-info-player h2 {
+                font-size: 1.2rem;
+            }
+            .lyrics-container {
+                height: 150px;
+                font-size: 0.9rem;
+            }
+            .control-btn-player { 
+                font-size: 1.4rem; 
+            }
+            .control-btn-player.play-pause-player { 
+                font-size: 2rem; 
+            }
+            .song-detail-container {
+                padding: 1.5rem;
+                max-width: 90%;
+            }
+            .detail-album-art {
+                width: 150px;
+                height: 150px;
+            }
+            .song-detail-container h2 {
+                font-size: 1.5rem;
+            }
+            .song-detail-container p {
+                font-size: 1rem;
+            }
+            .play-from-detail-btn {
+                padding: 0.7rem 1.5rem;
+                font-size: 1rem;
+            }
+            .secondary-controls-player {
+                flex-direction: flex;
+                gap: 0.8rem;
+            }
+            .volume-control-player, .playback-speed-control {
+                width: 100%;
+                justify-content: center;
+            }
+            .website-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+                min-width: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="video-background-container">
+        <video id="backgroundVideo" autoplay loop muted playsinline></video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <div id="homePage" class="page active">
+        <header>
+            <h1>Daftar Lagu</h1>
+        </header>
+        <main>
+            <ul id="songList" class="song-list">
+                <li class="loading-songs">Memuat lagu...</li> 
+            </ul>
+            
+            <!-- Website Buttons Container -->
+            <div class="website-buttons-container">
+    <a href="../menu.html" class="website-btn">
+        <i class="fas fa-globe"></i>
+        Back To Menu
+    </a>
+</div>
+    </div>
+
+    <div id="songDetailPage" class="page">
+        <button id="backToHomeFromDetailBtn" class="back-btn"><i class="fas fa-arrow-left"></i> Kembali</button>
+        <div class="song-detail-container">
+            <img id="detailAlbumArt" src="https://placehold.co/200x200/3a3a4e/e0e0e0?text=Art" alt="Album Art" class="detail-album-art">
+            <h2 id="detailTrackTitle">Judul Lagu</h2>
+            <p id="detailTrackArtist">Nama Artis</p>
+            <p id="detailAlbumName">Nama Album</p>
+            <button id="playFromDetailBtn" class="play-from-detail-btn"><i class="fas fa-play-circle"></i> Putar</button>
+        </div>
+    </div>
+
+    <div id="playerPage" class="page">
+        <button id="backToHomeBtn" class="back-btn"><i class="fas fa-arrow-left"></i> Kembali</button>
+        <div class="music-player-container">
+            <div class="music-player-box">
+                <div class="player-header">
+                    <img id="albumArt" src="https://placehold.co/100x100/3a3a4e/e0e0e0?text=Art" alt="Album Art" class="album-art-player">
+                    <div class="track-info-player">
+                        <h2 id="playerTrackTitle">Judul Lagu</h2>
+                        <p id="playerTrackArtist">Nama Artis</p>
+                    </div>
+                </div>
+
+                <div id="lyricsContainer" class="lyrics-container">
+                    <p>Lirik akan tampil di sini Cantikku</p>
+                </div>
+
+                <div class="player-controls">
+                    <div class="progress-section-player">
+                        <div id="playerProgressBarContainer" class="progress-bar-container-player">
+                            <div id="playerProgressBar" class="progress-bar-player"></div>
+                        </div>
+                        <div class="time-display-player">
+                            <span id="playerCurrentTime">0:00</span>
+                            <span id="playerTotalDuration">0:00</span>
+                        </div> 
+                    </div>
+
+                    <div class="main-controls-player">
+                        <button id="playerPrevBtn" class="control-btn-player"><i class="fas fa-backward-step"></i></button>
+                        <button id="playerPlayPauseBtn" class="control-btn-player play-pause-player"><i class="fas fa-play"></i></button>
+                        <button id="playerNextBtn" class="control-btn-player"><i class="fas fa-forward-step"></i></button>
+                    </div>
+
+                    <div class="secondary-controls-player">
+                        <button id="playerRepeatBtn" class="control-btn-player small-icon"><i class="fas fa-repeat"></i></button>
+                        <button id="playerShuffleBtn" class="control-btn-player small-icon"><i class="fas fa-shuffle"></i></button>
+                        <div class="volume-control-player">
+                            <i class="fas fa-volume-down volume-icon-player"></i>
+                            <input type="range" id="playerVolumeSlider" class="volume-slider-player" min="0" max="1" step="0.01" value="0.8">
+                            <i class="fas fa-volume-up volume-icon-player ml-1"></i>
+                        </div>
+                        <div class="playback-speed-control">
+                            <i class="fas fa-tachometer-alt speed-icon"></i>
+                            <input type="range" id="playerSpeedSlider" class="speed-slider" min="0.5" max="2.0" step="0.25" value="1.0">
+                            <span id="currentSpeedDisplay">1.0x</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="footer-credit">CloVerz</p>
+            </div>
+        </div>
+    </div>
+
+    <audio id="audioPlayer"></audio>
+
+    <script>
+        const homePage = document.getElementById('homePage');
+        const songDetailPage = document.getElementById('songDetailPage');
+        const playerPage = document.getElementById('playerPage');
+        const songListElement = document.getElementById('songList');
+
+        const backToHomeFromDetailBtn = document.getElementById('backToHomeFromDetailBtn');
+        const backToHomeBtn = document.getElementById('backToHomeBtn');
+        const bodyElement = document.body;
+
+        const backgroundVideoContainer = document.querySelector('.video-background-container');
+        const backgroundVideo = document.getElementById('backgroundVideo');
+
+        const detailAlbumArt = document.getElementById('detailAlbumArt');
+        const detailTrackTitle = document.getElementById('detailTrackTitle');
+        const detailTrackArtist = document.getElementById('detailTrackArtist');
+        const detailAlbumName = document.getElementById('detailAlbumName');
+        const playFromDetailBtn = document.getElementById('playFromDetailBtn');
+
+        const audioPlayer = document.getElementById('audioPlayer');
+        const albumArtPlayer = document.getElementById('albumArt');
+        const playerTrackTitle = document.getElementById('playerTrackTitle');
+        const playerTrackArtist = document.getElementById('playerTrackArtist');
+        const lyricsContainer = document.getElementById('lyricsContainer');
+
+        const playerProgressBarContainer = document.getElementById('playerProgressBarContainer');
+        const playerProgressBar = document.getElementById('playerProgressBar');
+        const playerCurrentTime = document.getElementById('playerCurrentTime');
+        const playerTotalDuration = document.getElementById('playerTotalDuration');
+
+        const playerPrevBtn = document.getElementById('playerPrevBtn');
+        const playerPlayPauseBtn = document.getElementById('playerPlayPauseBtn');
+        const playerNextBtn = document.getElementById('playerNextBtn');
+        const playerRepeatBtn = document.getElementById('playerRepeatBtn');
+        const playerShuffleBtn = document.getElementById('playerShuffleBtn');
+        const playerVolumeSlider = document.getElementById('playerVolumeSlider');
+        const playerSpeedSlider = document.getElementById('playerSpeedSlider');
+        const currentSpeedDisplay = document.getElementById('currentSpeedDisplay');
+
+        // App State
+        let songs = [
+    {
+        id: 1,
+        title: "Bila Kau Tak Di Sampingku",
+        artist: "Sheila On 7",
+        album: "-",
+        albumArtUrl: "https://img.youtube.com/vi/DbVrS-1UQNU/maxresdefault.jpg",
+        audioSrc: "audio/BilaKauTakDiSampingKu.mp3",
+        videoBgSrc: "videos/satu.mp4", // Path video background khusus lagu ini
+        // Lirik dengan timestamp dalam detik
+        lyrics: [
+            { time: 15.5, text: "Tak seharusnya kita terpisah" }, 
+            { time: 20, text: "Tak semestinya kita bertengkar" }, 
+            { time: 23.8, text: "Karna diriku masih butuh kau" }, 
+            { time: 30.8, text: "Maafkanlah sikapku" }, 
+            { time: 34.8, text: "Lupakanlah salahku itu" }, 
+            { time: 47.8, text: "Terlalu bodoh untuk diriku" }, 
+            { time: 52, text: "Menahan berat jutaan rindu" }, 
+            { time: 55.6, text: "Apalagi menahan egoku" }, 
+            { time: 62.8, text: "Maafkanlah sikapku" }, 
+            { time: 66.6, text: "Lupakanlah salahku" }, 
+            { time: 70.9, text: "Luapkan kepadaku, oh" }, 
+            { time: 78.3, text: "Takkan kubiarkan kau menangis" }, 
+            { time: 81.9, text: "Takkan kubiarkan kau terkikis" }, 
+            { time: 86.9, text: "Terluka perasaan oleh semua ucapanku" }, 
+            { time: 94.3, text: "Maafkanlah semua sifat kasarku" }, 
+            { time: 97.6, text: "Bukan maksud untuk melukaimu" }, 
+            { time: 102.7, text: "Aku hanyalah orang yang penuh rasa cemburu" },
+            { time: 111.8, text: "Bila kau tak di sampingku" }
+        ]
+    },
+    {
+        id: 2,
+        title: "Dan",
+        artist: "Sheila On 7",
+        album: "",
+        albumArtUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUSSmQJ-Eyu5TydLYWrKEgwnBrO1V13ui6MxPMg7z6UMYMNYSQyWwuIFI&s=10",
+        audioSrc: "audio/Dan.mp3",
+        videoBgSrc: "videos/dua.mp4", // Path video background khusus lagu ini
+        // Lirik dengan timestamp dalam detik
+        lyrics: [
+            { "time": 15.8, "text": "Dan..." },
+            { "time": 18.8, "text": "Dan bila esok datang kembali" },
+            { "time": 26.4,"text": "Seperti sedia kala di mana kau bisa bercanda" },
+            { "time": 31., "text": "Dan perlahan kau pun " },
+            { "time": 38, "text": "lupakan aku mimpi burukmu" }, 
+            { "time": 43.7, "text": "Dimana telah kutancapkan duri tajam" },
+            { "time": 49.5, "text": "Kau pun menangis, menangis sedih" },
+            { "time": 57.7, "text": "Maafkan aku..." },
+            { "time": 61.9, "text": "Dan bukan maksudku, bukan inginku melukaimu" },
+            { "time": 74.2, "text": "Sadarkah kau di sini ku pun terluka" },
+            { "time": 80., "text": "Melupakanmu, menepikanmu" },
+            { "time": 87.6, "text": "Maafkan aku" },
+            { "time": 91.3, "text": "Lupakanlah saja diriku" },
+            { "time": 94.8, "text": "Bila itu bisa membuatmu kembali bersinar dan berpijar seperti dulu kala" },
+            { "time": 106.6, "text": "Caci maki saja diriku" },
+            { "time": 110.4, "text": "Bila itu bisa membuatmu kembali bersinar dan berpijar seperti dulu kala" }
+                ]
+    },    
+    {
+        id: 3,
+        title: "I Wanna Be Yours",
+        artist: "Arctic Monkeys",
+        album: "AM",
+        albumArtUrl: "https://i.ytimg.com/vi/fJLQCf4mFP0/hqdefault.jpg",
+        audioSrc: "audio/I Wanna Be Yours.mp3",
+        videoBgSrc: "videos/tiga.mp4",
+        lyrics: [
+            { time: 18.4, text: "I wanna be your vacuum cleaner" },
+            { time: 22., text: "Breathing in your dust" },
+            { time: 25.4, text: "I wanna be your Ford Cortina" },
+            { time: 29, text: "I will never rust" },
+            { time: 32.1, text: "If you like your coffee hot" },
+            { time: 36, text: "Let me be your coffee pot" },
+            { time: 39.7, text: "You call the shots, babe" },
+            { time: 42, text: "I just wanna be yours" },
+
+            { time: 46.2, text: "Secrets I have held in my heart" },
+            { time: 50, text: "Are harder to hide than I thought" },
+            { time: 53.5, text: "Maybe I just wanna be yours" },
+            { time: 57, text: "I wanna be yours, I wanna be yours" },
+            { time: 62, text: "Wanna be yours, wanna be yours, wanna be yours" },
+
+            { time: 75, text: "Let me be your 'leccy meter and I'll never run out" },
+            { time: 81.6, text: "Let me be the portable heater that you'll get cold without" },
+            { time: 89.2, text: "I wanna be your setting lotion (wanna be)" },
+            { time: 92.8, text: "Hold your hair in deep devotion (how deep?)" },
+            { time: 96, text: "At least as deep as the Pacific Ocean" },
+            { time: 99.6, text: "I wanna be yours" },
+
+            { time: 103.3, text: "Secrets I have held in my heart" },
+            { time: 106.8, text: "Are harder to hide than I thought" },
+            { time: 110, text: "Maybe I just wanna be yours" },
+            { time: 113.7, text: "I wanna be yours, I wanna be yours" },
+            { time: 119, text: "Wanna be yours, wanna be yours, wanna be yours" },
+            { time: 129.8, text: "Wanna be yours, wanna be yours, wanna be yours" },
+            { time: 140, text: "Wanna be yours, wanna be yours" },
+
+            { time: 146, text: "I wanna be your vacuum cleaner (Wanna be yours)" },
+            { time: 150, text: "Breathing in your dust (Wanna be yours)" },
+            { time: 153.1, text: "I wanna be your Ford Cortina (Wanna be yours)" },
+            { time: 157, text: "I will never rust (Wanna be yours)" },
+            { time: 159.7, text: "I just wanna be yours (Wanna be yours)" },
+            { time: 163, text: "I just wanna be yours (Wanna be yours)" },
+            { time: 166.7, text: "I just wanna be yours (Wanna be yours)" }
+        ]
+    },
+
+];
+
+        let currentSongIndex = 0;
+        let isPlaying = false;
+        let isShuffle = false;
+        let repeatMode = 0;
+
+        function showHomePage() {
+            playerPage.classList.remove('active');
+            songDetailPage.classList.remove('active');
+            homePage.classList.add('active');
+
+            bodyElement.classList.remove('player-active-bg');
+            bodyElement.classList.remove('detail-active-bg');
+            backgroundVideoContainer.classList.remove('active');
+            backgroundVideo.pause();
+            backgroundVideo.src = "";
+            backgroundVideo.load();
+            pauseTrack();
+        }
+
+        function showSongDetailPage(song) {
+            homePage.classList.remove('active');
+            playerPage.classList.remove('active');
+            songDetailPage.classList.add('active');
+
+            detailAlbumArt.src = song.albumArtUrl;
+            detailTrackTitle.textContent = song.title;
+            detailTrackArtist.textContent = song.artist;
+            detailAlbumName.textContent = song.album || "Unknown Album";
+
+            bodyElement.classList.remove('player-active-bg');
+            bodyElement.classList.add('detail-active-bg');
+            backgroundVideoContainer.classList.remove('active');
+            backgroundVideo.pause();
+            backgroundVideo.src = "";
+            backgroundVideo.load();
+        }
+
+        function showPlayerPage() {
+            homePage.classList.remove('active');
+            songDetailPage.classList.remove('active');
+            playerPage.classList.add('active');
+
+            bodyElement.classList.remove('detail-active-bg');
+            bodyElement.classList.add('player-active-bg');
+            backgroundVideoContainer.classList.add('active');
+
+            const currentSong = songs[currentSongIndex];
+            if (currentSong && currentSong.videoBgSrc) {
+                backgroundVideo.src = currentSong.videoBgSrc;
+                backgroundVideo.load();
+                backgroundVideo.play().catch(e => console.error("Error playing video background:", e));
+            } else {
+                backgroundVideo.src = "";
+                backgroundVideo.load();
+            }
+        }
+
+        function renderSongList() {
+            songListElement.innerHTML = '';
+            if (songs.length === 0) {
+                songListElement.innerHTML = '<li class="loading-songs">Tidak ada lagu tersedia.</li>';
+                return;
+            }
+            songs.forEach((song, index) => {
+                const listItem = document.createElement('li');
+                listItem.setAttribute('data-id', song.id);
+                listItem.innerHTML = `
+                    <img src="${song.albumArtUrl}" alt="${song.title}" class="song-art-list">
+                    <div class="song-info-list">
+                        <h3>${song.title}</h3>
+                        <p>${song.artist}</p>
+                    </div>
+                `;
+                
+                listItem.addEventListener('click', () => {
+                    currentSongIndex = index;
+                    loadSong(songs[currentSongIndex]);
+                    playTrack();
+                    showPlayerPage();
+                });
+
+                listItem.addEventListener('mouseenter', () => {
+                    if (homePage.classList.contains('active') && song.videoBgSrc) {
+                        backgroundVideo.src = song.videoBgSrc;
+                        backgroundVideo.load();
+                        backgroundVideoContainer.classList.add('active');
+                        backgroundVideo.play().catch(e => console.error("Error playing video on hover:", e));
+                        bodyElement.classList.add('player-active-bg');
+                    }
+                });
+                
+                listItem.addEventListener('mouseleave', () => {
+                    if (homePage.classList.contains('active')) {
+                        backgroundVideoContainer.classList.remove('active');
+                        backgroundVideo.pause();
+                        backgroundVideo.src = "";
+                        backgroundVideo.load();
+                        bodyElement.classList.remove('player-active-bg');
+                    }
+                });
+
+                songListElement.appendChild(listItem);
+            });
+        }
+
+        function loadSong(song) {
+            if (!song) {
+                console.error("Lagu tidak ditemukan!");
+                albumArtPlayer.src = "https://placehold.co/100x100/3a3a4e/e0e0e0?text=Error";
+                playerTrackTitle.textContent = "Lagu Tidak Tersedia";
+                playerTrackArtist.textContent = "-";
+                lyricsContainer.innerHTML = "<p>Lirik tidak tersedia.</p>";
+                audioPlayer.src = "";
+                playerCurrentTime.textContent = "0:00";
+                playerTotalDuration.textContent = "0:00";
+                playerProgressBar.style.width = "0%";
+                return;
+            }
+            albumArtPlayer.src = song.albumArtUrl;
+            playerTrackTitle.textContent = song.title;
+            playerTrackArtist.textContent = song.artist;
+
+            renderLyrics(song.lyrics);
+
+            audioPlayer.src = song.audioSrc;
+
+            audioPlayer.onloadedmetadata = () => {
+                playerTotalDuration.textContent = formatTime(audioPlayer.duration);
+            };
+            audioPlayer.load();
+            updatePlayPauseIcon();
+        }
+
+        function renderLyrics(lyrics) {
+            lyricsContainer.innerHTML = '';
+            if (!lyrics || lyrics.length === 0) {
+                lyricsContainer.innerHTML = "<p>Lirik tidak tersedia untuk lagu ini.</p>";
+                return;
+            }
+
+            lyrics.forEach(line => {
+                const span = document.createElement('span');
+                span.textContent = line.text;
+                span.setAttribute('data-time', line.time);
+                span.classList.add('lyric-line');
+                lyricsContainer.appendChild(span);
+            });
+        }
+
+        function playTrack() {
+            if (!audioPlayer.src || audioPlayer.src === window.location.href) {
+                if (songs.length > 0) {
+                    loadSong(songs[currentSongIndex]);
+                } else {
+                    console.log("Tidak ada lagu untuk dimainkan.");
+                    return;
+                }
+            }
+            isPlaying = true;
+            audioPlayer.play().catch(error => console.error("Error saat play:", error));
+            updatePlayPauseIcon();
+        }
+
+        function pauseTrack() {
+            isPlaying = false;
+            audioPlayer.pause();
+            updatePlayPauseIcon();
+        }
+
+        function updatePlayPauseIcon() {
+            if (isPlaying) {
+                playerPlayPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            } else {
+                playerPlayPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            }
+        }
+
+        function prevTrack() {
+            if (songs.length === 0) return;
+            if (isShuffle) {
+                playRandomTrack();
+            } else {
+                currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+            }
+            loadSong(songs[currentSongIndex]);
+            playTrack();
+            showPlayerPage();
+        }
+
+        function nextTrackLogic() {
+            if (songs.length === 0) return;
+            if (isShuffle) {
+                playRandomTrack();
+            } else {
+                currentSongIndex = (currentSongIndex + 1) % songs.length;
+            }
+            loadSong(songs[currentSongIndex]);
+            playTrack();
+            showPlayerPage();
+        }
+
+        function nextTrack() {
+            if (songs.length === 0) return;
+
+            if (repeatMode === 1 && audioPlayer.ended) {
+                // Handled by audio.loop = true
+            } else if (isShuffle) {
+                playRandomTrack();
+            } else {
+                currentSongIndex++;
+                if (currentSongIndex >= songs.length) {
+                    if (repeatMode === 2) {
+                        currentSongIndex = 0;
+                    } else {
+                        currentSongIndex = songs.length - 1;
+                        loadSong(songs[currentSongIndex]);
+                        pauseTrack();
+                        audioPlayer.currentTime = audioPlayer.duration;
+                        return;
+                    }
+                }
+                loadSong(songs[currentSongIndex]);
+                playTrack();
+            }
+            showPlayerPage();
+        }
+
+        function playRandomTrack() {
+            if (songs.length <= 1) {
+                currentSongIndex = 0;
+            } else {
+                let randomIndex;
+                do {
+                    randomIndex = Math.floor(Math.random() * songs.length);
+                } while (randomIndex === currentSongIndex);
+                currentSongIndex = randomIndex;
+            }
+            loadSong(songs[currentSongIndex]);
+            playTrack();
+            showPlayerPage();
+        }
+
+        audioPlayer.addEventListener('timeupdate', () => {
+            if (audioPlayer.duration) {
+                const progressPercent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                playerProgressBar.style.width = `${progressPercent}%`;
+                playerCurrentTime.textContent = formatTime(audioPlayer.currentTime);
+
+                const currentTime = audioPlayer.currentTime;
+                const lyricLines = lyricsContainer.querySelectorAll('.lyric-line');
+                let highlightedLine = null;
+
+                lyricLines.forEach((line, index) => {
+                    const lineTime = parseFloat(line.getAttribute('data-time'));
+                    let nextLineTime = Infinity; 
+                    if (index + 1 < lyricLines.length) {
+                        nextLineTime = parseFloat(lyricLines[index + 1].getAttribute('data-time'));
+                    }
+
+                    if (currentTime >= lineTime && currentTime < nextLineTime) {
+                        line.classList.add('highlight');
+                        highlightedLine = line;
+                    } else {
+                        line.classList.remove('highlight');
+                    }
+                });
+
+                if (highlightedLine) {
+                    const containerRect = lyricsContainer.getBoundingClientRect();
+                    const lineRect = highlightedLine.getBoundingClientRect();
+
+                    const isOutsideTop = lineRect.top < containerRect.top;
+                    const isOutsideBottom = lineRect.bottom > containerRect.bottom;
+
+                    if (isOutsideTop || isOutsideBottom) {
+                        highlightedLine.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                }
+            }
+        });
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        playerProgressBarContainer.addEventListener('click', (e) => {
+            if (!audioPlayer.duration || songs.length === 0) return;
+            const width = playerProgressBarContainer.clientWidth;
+            const clickX = e.offsetX;
+            audioPlayer.currentTime = (clickX / width) * audioPlayer.duration;
+        });
+
+        playerVolumeSlider.addEventListener('input', (e) => {
+            audioPlayer.volume = e.target.value;
+        });
+
+        playerSpeedSlider.addEventListener('input', (e) => {
+            audioPlayer.playbackRate = parseFloat(e.target.value);
+            currentSpeedDisplay.textContent = `${audioPlayer.playbackRate.toFixed(2)}x`;
+        });
+
+        playerShuffleBtn.addEventListener('click', () => {
+            isShuffle = !isShuffle;
+            playerShuffleBtn.classList.toggle('active-feature', isShuffle);
+            console.log("Shuffle: " + isShuffle);
+        });
+
+        playerRepeatBtn.addEventListener('click', () => {
+            repeatMode = (repeatMode + 1) % 3;
+            updateRepeatButtonUI();
+            console.log("Repeat Mode: " + repeatMode);
+        });
+
+        function updateRepeatButtonUI() {
+            playerRepeatBtn.classList.remove('active-feature');
+            audioPlayer.loop = false;
+
+            if (repeatMode === 0) {
+                playerRepeatBtn.innerHTML = '<i class="fas fa-repeat"></i>';
+            } else if (repeatMode === 1) {
+                playerRepeatBtn.innerHTML = '<i class="fas fa-repeat-1"></i>';
+                playerRepeatBtn.classList.add('active-feature');
+                audioPlayer.loop = true;
+            } else {
+                playerRepeatBtn.innerHTML = '<i class="fas fa-repeat"></i>';
+                playerRepeatBtn.classList.add('active-feature');
+            }
+        }
+
+        playerPlayPauseBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                pauseTrack();
+            } else {
+                playTrack();
+            }
+        });
+        
+        playerPrevBtn.addEventListener('click', prevTrack);
+        playerNextBtn.addEventListener('click', nextTrackLogic);
+
+        audioPlayer.addEventListener('ended', () => {
+            if (repeatMode === 1) {
+                // Handled by audio.loop = true
+            } else {
+                nextTrack();
+            }
+        });
+
+        backToHomeFromDetailBtn.addEventListener('click', showHomePage);
+        backToHomeBtn.addEventListener('click', showHomePage);
+
+        playFromDetailBtn.addEventListener('click', () => {
+            loadSong(songs[currentSongIndex]);
+            playTrack();
+            showPlayerPage();
+        });
+
+        function init() {
+            console.log("Initializing...");
+            console.log("Songs array length:", songs.length);
+            console.log("songListElement:", songListElement);
+
+            renderSongList();
+
+            if (songs.length > 0) {
+                loadSong(songs[currentSongIndex]);
+            } else {
+                albumArtPlayer.src = "https://placehold.co/100x100/3a3a4e/e0e0e0?text=Musik";
+                playerTrackTitle.textContent = "Tidak Ada Lagu";
+                playerTrackArtist.textContent = "Tambahkan lagu";
+                lyricsContainer.innerHTML = "<p>Silakan tambahkan lagu dari daftar.</p>";
+            }
+            audioPlayer.volume = playerVolumeSlider.value;
+            audioPlayer.playbackRate = playerSpeedSlider.value;
+            currentSpeedDisplay.textContent = `${audioPlayer.playbackRate.toFixed(2)}x`;
+            updatePlayPauseIcon();
+            updateRepeatButtonUI();
+            showHomePage();
+            console.log("Initialization complete.");
+        }
+
+        init();
+    </script>
+</body>
+</html>

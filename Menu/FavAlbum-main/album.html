@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
+    <title>My Fav Album</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Cute+Font&display=swap");
+      html,
+        body {
+    color: #333;
+    font-family: "Cute Font", cursive;
+    background: #3c3c3c;
+    overflow: hidden;
+  }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+  }
+  *:before,
+  *:after {
+    content: "";
+    position: absolute;
+  }
+  .container {
+    margin: auto;
+  }
+  .album {
+    transform-style: preserve-3d;
+    transition: 1s;
+    margin: auto;
+    width: 600px;
+    height: 700px;
+    transform: scale(0.5);
+    cursor: pointer;
+    position: relative;
+  }
+  .txt-meowish {
+    position: absolute;
+    top: 65%;
+    color: rgb(209, 209, 209);
+    left: 35%;
+    z-index: 100;
+    font-size: 5rem;
+  }
+  .album--open {
+    transform: translate(65px, 0) rotateX(35deg) rotateY(0deg) rotateZ(35deg)
+      scale(0.5);
+  }
+  .album__paper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: 1s;
+    transform-origin: 0 50%;
+    transform-style: preserve-3d;
+  }
+  .album__paper:not(.first) .album__page {
+    background: #f1f0f0;
+    background-size: 100% 1.5em;
+  }
+  .album__paper:not(.first) .back {
+    background: #d4d3d3;
+  }
+  .album__paper:nth-of-type(1) .back {
+    background: rgb(224, 37, 184);
+  }
+  .album__paper:nth-of-type(1) .album__page {
+    background: rgb(224, 37, 184);
+  }
+  .album__paper.open {
+    box-shadow: 0 1em 0 0 #aaa;
+    transform: rotateX(0) rotateY(-180deg) rotateZ(0);
+  }
+  .album__paper .album__page.front {
+    transition: 1s;
+    -webkit-transition: 1s;
+    transform-origin: 0 50%;
+    -webkit-transform-origin: 0 50%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    z-index: 2;
+  }
+  .album__paper .back {
+    transition: 1s;
+    -webkit-transition: 1s;
+    transform-origin: 0 50%;
+    -webkit-transform-origin: 0 50%;
+    background: #e1e1e1;
+  }
+  .album__top-title {
+    font-size: 90px;
+    line-height: 0.8;
+    padding: 20px;
+  }
+  .album__page {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform: translateZ(0px);
+  }
+  .album__back {
+    width: 3em;
+    height: 700px;
+    background: #007e8a;
+    position: absolute;
+    left: -3em;
+    top: 0;
+    transform-origin: 100% 100%;
+    -webkit-transform-origin: 100% 100%;
+    transform: rotateY(-90deg) rotateX(0deg);
+    -webkit-transform: rotateY(-90deg) rotateX(0deg);
+  }
+  .album__shadow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 600px;
+    height: 700px;
+    background: transparent;
+    transform: translateZ(-3em);
+    -webkit-transform: translateZ(-3em);
+    box-shadow: 1em 1em 0px 0px #aaa;
+    z-index: 1;
+  }
+  .album__bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 600px;
+    height: 3em;
+    background: #d4d3d3;
+    transform-origin: 100% 100%;
+    -webkit-transform-origin: 100% 100%;
+    transform: rotateX(90deg);
+    -webkit-transform: rotateX(90deg);
+  }
+  .cat-mark {
+    position: relative;
+    width: 200px;
+    height: 170px;
+    background: rgb(219, 219, 219);
+    border-radius: 60% 60% 90px 90px;
+    margin: 150px auto auto;
+  }
+  .cat-mark:before,
+  .cat-mark:after {
+    top: -25px;
+    width: 0;
+    height: 0;
+    border-bottom: 80px solid rgb(219, 219, 219);
+    border-right: 50px solid transparent;
+    border-left: 50px solid transparent;
+    border-radius: 33px;
+  }
+  .cat-mark:before {
+    right: -20px;
+    transform: rotate(32deg);
+    -webkit-transform: rotate(32deg);
+  }
+  .cat-mark:after {
+    left: -20px;
+    transform: rotate(-32deg);
+    -webkit-transform: rotate(-32deg);
+  }
+  .top-content {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+  }
+  .content {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 100px auto;
+    height: 100%;
+  }
+  .content__title {
+    grid-row: 1;
+    grid-column: 1/3;
+    font-size: 100px;
+    line-height: 0.8;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .content__img1 {
+    grid-row: 2/4;
+    grid-column: 1/2;
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+    box-sizing: border-box;
+  }
+  .content__img1 img {
+    margin: auto;
+    width: 90%;
+    border: 10px solid #fff;
+    box-sizing: border-box;
+  }
+  .content__img2 {
+    grid-row: 3/4;
+    grid-column: 2/4;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+  }
+  .content__img2 img {
+    margin: auto;
+    width:69%;
+    border: 10px solid #fff;
+    box-sizing: border-box;
+    margin: 0 2px 0 0;
+  }
+  .content__img3 {
+    grid-row: 2;
+    grid-column: 2;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+  }
+  .content__img3 img {
+    margin: auto;
+    width: 100%;
+    border: 10px solid #fff;
+    box-sizing: border-box;
+  }
+  .content__text {
+    width: 100%;
+    padding: 30px;
+    font-size: 30px;
+    box-sizing: border-box;
+  }
+  .content-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .content-link .content__title {
+    font-size: 100px;
+    line-height: 0.8;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .content__link-text {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    margin: 0px 0 25px 0;
+    text-align: center;
+  }
+  /* Placeholder for missing images */
+  .img-placeholder {
+    background: #f0f0f0;
+    border: 2px dashed #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 14px;
+    text-align: center;
+    min-height: 150px;
+  }
+  @media screen and (max-width: 768px) {
+    body {
+      overflow: visible;
+    }
+  }
+</style>
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="container">
+        <div class="album" :class="{'album--open': isOpenedTop}">
+          <div
+            class="album__paper"
+            :style="{zIndex: isOpenedTop ? 0 : items.length + 1 }"
+            :class="{'open': isOpenedTop}"
+            @click="topOpen(isOpenedTop)">
+            <div
+              class="album__page front"
+              :style="{transform: `translateZ(0.${items.length + 1}px)`}">
+              <div>
+                <div class="album__top-title">My Universe</div>
+                <p class="txt-meowish">Meisya</p>
+                <div class="cat-mark"></div>
+              </div>
+            </div>
+            <div class="album__page back" :style="{zIndex: 0}"></div>
+          </div>
+          <div
+            class="album__paper"
+            v-for="(page, idx) in items"
+            :key="idx + 1"
+            :style="{zIndex: page.isOpen ? idx + 1 : items.length + 1 - (idx + 1) }"
+            :class="{'open': page.isOpen}"
+            @click="idx + 1 === items.length ? reset() : open(idx, page.isOpen)">
+            <div
+              class="album__page front"
+              :style="{transform: `translateZ(0.${items.length + 1 - (idx + 1)}px)`}">
+              <!-- Special layout for link page -->
+              <div v-if="page.isLinkPage" class="content-link">
+                <div class="content__title">{{ page.title }}</div>
+                <div class="content__link-text">
+                  <a :href="page.link" target="_blank" style="color: #007e8a; text-decoration: underline;">
+                    Click here to continue...
+                  </a>
+                </div>
+              </div>
+              
+              <!-- Normal content layout -->
+              <div v-else class="content">
+                <div class="content__title">{{ page.title }}</div>
+                <div class="content__img1">
+                  <img v-if="page.img1" :src="page.img1" @error="handleImageError" />
+                  <div v-else class="img-placeholder">Image 1<br>{{ page.img1 }}</div>
+                  <div class="content__text">{{ idx + 1 }}</div>
+                </div>
+                <div class="content__img2">
+                  <img v-if="page.img2" :src="page.img2" @error="handleImageError" />
+                  <div v-else class="img-placeholder">Image 2<br>{{ page.img2 }}</div>
+                </div>
+                <div class="content__img3">
+                  <img v-if="page.img3" :src="page.img3" @error="handleImageError" />
+                  <div v-else class="img-placeholder">Image 3<br>{{ page.img3 }}</div>
+                </div>
+                <div class="content__text">{{ idx + 1 }}</div>
+              </div>
+            </div>
+            <div class="album__page back" :style="{zIndex: idx + 1}"></div>
+          </div>
+          <div class="album__back"></div>
+          <div class="album__bottom"></div>
+          <div class="album__shadow"></div>
+        </div>
+      </div>
+    </div>
+    <script>
+    new Vue({
+      el: "#app",
+      data() {
+        return {
+          isOpenedTop: false, // Changed to false so album starts closed
+          items: [
+            {
+              img1: "images/img1.jpg",
+              img2: "images/img2.png",
+              img3: "images/img3.png",
+              title: "Prettiest",
+              isOpen: false,
+            },
+            {
+              img1: "images/img4.jpg",
+              img2: "images/img5.jpg",
+              img3: "images/img6.jpg",
+              title: "Cuttiest",
+              isOpen: false,
+            },
+            {
+              img1: "images/img9.jpeg",
+              img2: "images/img8.jpg",
+              img3: "images/img7.jpeg",
+              title: "Babies",
+              isOpen: false,
+            },
+            {
+              img1: "images/img12.jpg",
+              img2: "images/img10.jpg",
+              img3: "images/img11.jpeg",
+              title: "Sweetiest",
+              isOpen: false,
+            },
+            {
+              img1: "images/img13.jpg",
+              img2: "images/img14.jpg",
+              img3: "images/img15.jpg",
+              title: "Princess",
+              isOpen: false,
+            },
+            {
+              img1: "images/img17.jpeg",
+              img2: "images/img16.jpeg",
+              img3: "images/img18.png",
+              title: "Mine",
+              isOpen: false,
+            },
+            {
+              img1: "images/img19.jpg",
+              img2: "images/img20.jpg",
+              img3: "images/img21.jpg",
+              title: "MyWorld",
+              isOpen: false,
+            },
+
+            {
+              img1: "",
+              img2: "",
+              img3: "",
+              title: "To Be Continued...",
+              isOpen: false,
+              isLinkPage: true,
+              link: "../menu.html"
+            }
+          ],
+        };
+      },
+      methods: {
+        topOpen() {
+          this.isOpenedTop = !this.isOpenedTop;
+        },
+        open(idx, isOpen) {
+          if (this.isOpenedTop) {
+            this.items[idx].isOpen = !isOpen;
+          }
+        },
+        reset() {
+          this.items.forEach((item) => (item.isOpen = false));
+          this.isOpenedTop = false;
+        },
+        handleImageError(event) {
+          event.target.style.display = 'none';
+        }
+      },
+    });
+    </script>
+  </body>
+</html>

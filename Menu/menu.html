@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Anak-Anak 🌈</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Neue', cursive;
+            background: linear-gradient(135deg, #BDE0FE 0%, #FFC8DD 50%, #CDB4DB 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Floating shapes for decoration */
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape-1 {
+            width: 80px;
+            height: 80px;
+            background: #FFAFCC;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 60px;
+            height: 60px;
+            background: #CDB4DB;
+            top: 20%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .shape-3 {
+            width: 100px;
+            height: 100px;
+            background: #BDE0FE;
+            bottom: 15%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        .shape-4 {
+            width: 70px;
+            height: 70px;
+            background: #FFC8DD;
+            bottom: 25%;
+            right: 10%;
+            animation-delay: 1s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            z-index: 10;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #2d1b3d;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #5a4b6b;
+            font-weight: 400;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .menu-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            width: 100%;
+            z-index: 10;
+            position: relative;
+        }
+
+        .menu-item {
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            border-radius: 2rem;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 2rem;
+            padding: 3px;
+            background: linear-gradient(145deg, var(--gradient-color-1), var(--gradient-color-2));
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: xor;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-item:hover::before {
+            opacity: 1;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .menu-item.music {
+            --gradient-color-1: #BDE0FE;
+            --gradient-color-2: #FFC8DD;
+            background: linear-gradient(145deg, #BDE0FE, #e3f2ff);
+        }
+
+        .menu-item.games {
+            --gradient-color-1: #FFC8DD;
+            --gradient-color-2: #FFAFCC;
+            background: linear-gradient(145deg, #FFC8DD, #ffe3ee);
+        }
+
+        .menu-item.stories {
+            --gradient-color-1: #CDB4DB;
+            --gradient-color-2: #BDE0FE;
+            background: linear-gradient(145deg, #CDB4DB, #e6d7ee);
+        }
+
+        .menu-item.learning {
+            --gradient-color-1: #FFAFCC;
+            --gradient-color-2: #CDB4DB;
+            background: linear-gradient(145deg, #FFAFCC, #ffc9d4);
+        }
+
+        .menu-item.art {
+            --gradient-color-1: #BDE0FE;
+            --gradient-color-2: #CDB4DB;
+            background: linear-gradient(145deg, #BDE0FE, #d4e7fd);
+        }
+
+        .menu-item.videos {
+            --gradient-color-1: #FFC8DD;
+            --gradient-color-2: #BDE0FE;
+            background: linear-gradient(145deg, #FFC8DD, #e8f3fe);
+        }
+
+        .menu-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: #2d1b3d;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: wiggle 3s ease-in-out infinite;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+
+        .menu-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2d1b3d;
+            margin-bottom: 0.5rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .menu-description {
+            font-size: 1rem;
+            color: #5a4b6b;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+
+        /* Stars decoration */
+        .star {
+            position: absolute;
+            color: #ffd700;
+            font-size: 1.5rem;
+            animation: twinkle 2s ease-in-out infinite;
+        }
+
+        .star-1 { top: 15%; left: 5%; animation-delay: 0s; }
+        .star-2 { top: 25%; right: 8%; animation-delay: 0.5s; }
+        .star-3 { bottom: 30%; left: 12%; animation-delay: 1s; }
+        .star-4 { bottom: 20%; right: 15%; animation-delay: 1.5s; }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .menu-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .menu-item {
+                padding: 1.5rem;
+            }
+            
+            .menu-icon {
+                font-size: 3rem;
+            }
+            
+            .menu-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating shapes -->
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+    <div class="floating-shape shape-3"></div>
+    <div class="floating-shape shape-4"></div>
+
+    <!-- Stars -->
+    <div class="star star-1">⭐</div>
+    <div class="star star-2">✨</div>
+    <div class="star star-3">⭐</div>
+    <div class="star star-4">✨</div>
+
+    <div class="header">
+        <h1>Di Pilih Menu nya anak kecil</h1>
+        <p>Love you</p>
+    </div>
+
+        <div class="menu-item games" onclick="navigateTo('games')">
+            <div class="menu-icon">👤</div>
+            <h2 class="menu-title">Profile</h2>
+            <p class="menu-description">Meisya Aulia Putri?</p>
+        </div>
+
+    <div class="menu-container">
+        <div class="menu-item music" onclick="navigateTo('music')">
+            <div class="menu-icon">🎵</div>
+            <h2 class="menu-title">Musik</h2>
+            <p class="menu-description">Dengarkan lagu-lagu favorit dan bernyanyi bersama!</p>
+        </div>
+
+        <div class="menu-item stories" onclick="navigateTo('stories')">
+            <div class="menu-icon">📚</div>
+            <h2 class="menu-title">Album</h2>
+            <p class="menu-description">Album about Cutest Person</p>
+        </div>
+
+        <div class="menu-item learning" onclick="navigateTo('learning')">
+            <div class="menu-icon">💐</div>
+            <h2 class="menu-title">Flowers</h2>
+            <p class="menu-description">When you tired check open this flower</p>
+        </div>
+
+        <div class="menu-item art" onclick="navigateTo('art')">
+            <div class="menu-icon">💖</div>
+            <h2 class="menu-title">Affirmation</h2>
+            <p class="menu-description">Buat Mewarai harimu dengan kata kata</p>
+        </div>
+
+        <div class="menu-item art" onclick="navigateTo('calc')">
+            <div class="menu-icon">^^</div>
+            <h2 class="menu-title">LoveCalc</h2>
+            <p class="menu-description">Kalkulator yang berisi rahasia</p>
+        </div>
+    </div>
+
+    <script>
+        function navigateTo(page) {
+            // Add click animation
+            event.target.closest('.menu-item').style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                // GANTI BAGIAN INI DENGAN LINK ANDA
+                switch(page) {
+                    case 'games':
+                        window.location.href = 'profile/profile.html'; // atau URL games Anda
+                        break;
+                    case 'music':
+                        window.location.href = 'music/music.html'; // atau URL musik Anda
+                        break;
+                    case 'stories':
+                        window.location.href = 'FavAlbum-main/album.html'; // atau URL cerita Anda
+                        break;
+                    case 'learning':
+                        window.location.href = 'flower/flower.html'; // atau URL belajar Anda
+                        break;
+                    case 'art':
+                        window.location.href = 'affirmation/words.html'; // atau URL menggambar Anda
+                        break;
+                    case 'calc':
+                        window.location.href = 'Lovelator/lovelator.html'; // atau URL menggambar Anda
+                        break;
+                    default:
+                        alert('Halaman tidak ditemukan!');
+                }
+                
+                // Reset animation
+                event.target.closest('.menu-item').style.transform = '';
+            }, 150);
+        }
+
+        // Add sparkle effect on hover
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                createSparkles(this);
+            });
+        });
+
+        function createSparkles(element) {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.innerHTML = '✨';
+                    sparkle.style.position = 'absolute';
+                    sparkle.style.fontSize = '1rem';
+                    sparkle.style.color = '#ffd700';
+                    sparkle.style.pointerEvents = 'none';
+                    sparkle.style.zIndex = '1000';
+                    
+                    const rect = element.getBoundingClientRect();
+                    sparkle.style.left = (rect.left + Math.random() * rect.width) + 'px';
+                    sparkle.style.top = (rect.top + Math.random() * rect.height) + 'px';
+                    
+                    document.body.appendChild(sparkle);
+                    
+                    // Animate sparkle
+                    sparkle.animate([
+                        { opacity: 0, transform: 'translateY(0px) scale(0)' },
+                        { opacity: 1, transform: 'translateY(-20px) scale(1)' },
+                        { opacity: 0, transform: 'translateY(-40px) scale(0)' }
+                    ], {
+                        duration: 1000,
+                        easing: 'ease-out'
+                    }).onfinish = () => sparkle.remove();
+                }, i * 100);
+            }
+        }
+    </script>
+</body>
+</html>

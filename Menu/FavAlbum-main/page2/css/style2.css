@@ -1,0 +1,43 @@
+body {
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    height: 100vh;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    margin: 0;
+    overflow: hidden;
+    background: linear-gradient(to top, grey, pink);
+}
+
+.container {
+    margin-top: 0px;
+    padding: 4px;
+    border: 1px dotted pink;
+    margin: 15px;
+    line-height: 17px;
+    width: 400px;
+}
+.box {
+    background-color: pink;
+    width: auto;
+    height: 40px;
+    margin: 0px;
+    padding: 1px 0 10px 0;
+    border: 2px solid rgb(100, 100, 100);
+}
+
+button {
+    background-color: pink;
+    border: none;
+    font-size: 16px;
+    padding: 4px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 2px 1px 5px rgba(0 ,0, 0, 0.7);
+}
+
+h5 {
+    margin-top: 200px;
+}
