@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login Web</title>
   <style>
     * {
@@ -16,9 +17,12 @@
       align-items: center;
       min-height: 100vh;
       width: 100%;
-      background: url('background.png');
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      /* Fallback background jika background.png tidak ada */
+      background-image: url('background.png');
       background-position: center;
       background-size: cover;
+      background-attachment: fixed;
     }
 
     .form-box {
@@ -32,12 +36,14 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
     }
 
     h2 {
       font-size: 2em;
       color: #fff;
       text-align: center;
+      margin-bottom: 30px;
     }
 
     .inputbox {
@@ -55,6 +61,7 @@
       color: pink;
       font-size: 1em;
       transition: .5s;
+      pointer-events: none;
     }
 
     input:focus~label,
@@ -71,6 +78,10 @@
       font-size: 1em;
       padding: 0 35px 0 5px;
       color: #fff;
+    }
+
+    .inputbox input::placeholder {
+      color: transparent;
     }
 
     .forget {
@@ -101,6 +112,16 @@
       cursor: pointer;
       font-size: 1em;
       font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #f0f0f0;
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
     }
 
     .register {
@@ -119,6 +140,34 @@
     .register p a:hover {
       text-decoration: underline;
     }
+
+    /* Error message styling */
+    .error-message {
+      color: #ff6b6b;
+      font-size: 0.9em;
+      text-align: center;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* Loading state */
+    .loading {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    /* Responsive design */
+    @media (max-width: 480px) {
+      .form-box {
+        width: 90%;
+        height: auto;
+        padding: 20px;
+      }
+      
+      .inputbox {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 
@@ -136,7 +185,14 @@
             <input type="password" id="password" required>
             <label>Password</label>
           </div>
-          <button type="submit">Log in</button>
+          <div class="forget">
+            <a href="#">Forgot Password?</a>
+          </div>
+          <button type="submit" id="loginButton">Log in</button>
+          <div class="error-message" id="errorMessage"></div>
+          <div class="register">
+            <p>Don't have an account? <a href="#">Register</a></p>
+          </div>
         </form>
       </div>
     </div>
@@ -146,22 +202,93 @@
     document.getElementById('loginForm').addEventListener('submit', function (e) {
       e.preventDefault(); // Mencegah reload
 
-      const username = document.getElementById('username').value;
+      const username = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value;
+      const errorMessage = document.getElementById('errorMessage');
+      const loginButton = document.getElementById('loginButton');
 
-      // Data login contoh
+      // Clear previous error messages
+      errorMessage.style.display = 'none';
 
-      const validUsername = 'CuttestPerson';
-      const validPassword = 'ily1000years';
+      // Basic validation
+      if (!username || !password) {
+        showError('Please fill in all fields');
+        return;
+      }
 
+      // Show loading state
+      loginButton.textContent = 'Logging in...';
+      loginButton.disabled = true;
+      document.querySelector('.form-box').classList.add('loading');
 
-      if (username === validUsername && password === validPassword) {
-        alert('semoga suka ^^');
+      // Simulate network delay (remove in production)
+      setTimeout(() => {
+        // Data login (dalam production, ini harus di server-side)
+        const validUsername = 'CuttestPerson';
+        const validPassword = 'ily1000years';
 
-        // Redirect ke halaman setelah login (ganti sesuai kebutuhan)
-        window.location.href = 'Menu/menu.html'; // Bisa juga 'https://example.com'
-      } else {
-        alert('Login Gagal. Username atau Password salah!');
+        if (username === validUsername && password === validPassword) {
+          // Success message
+          showSuccess('Login berhasil! Redirecting...');
+          
+          // Redirect setelah delay singkat
+          setTimeout(() => {
+            // Cek apakah file target ada sebelum redirect
+            checkFileExists('Menu/menu.html')
+              .then(() => {
+                window.location.href = 'Menu/menu.html';
+              })
+              .catch(() => {
+                // Fallback jika file tidak ada
+                alert('semoga suka ^^');
+                console.log('Menu page not found, staying on login page');
+              });
+          }, 1500);
+        } else {
+          showError('Username atau Password salah!');
+          resetButton();
+        }
+      }, 1000);
+    });
+
+    function showError(message) {
+      const errorMessage = document.getElementById('errorMessage');
+      errorMessage.textContent = message;
+      errorMessage.style.display = 'block';
+      errorMessage.style.color = '#ff6b6b';
+    }
+
+    function showSuccess(message) {
+      const errorMessage = document.getElementById('errorMessage');
+      errorMessage.textContent = message;
+      errorMessage.style.display = 'block';
+      errorMessage.style.color = '#51cf66';
+    }
+
+    function resetButton() {
+      const loginButton = document.getElementById('loginButton');
+      loginButton.textContent = 'Log in';
+      loginButton.disabled = false;
+      document.querySelector('.form-box').classList.remove('loading');
+    }
+
+    // Function to check if file exists
+    function checkFileExists(url) {
+      return fetch(url, { method: 'HEAD' })
+        .then(response => {
+          if (response.ok) {
+            return Promise.resolve();
+          } else {
+            return Promise.reject();
+          }
+        })
+        .catch(() => Promise.reject());
+    }
+
+    // Add enter key support
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        document.getElementById('loginForm').dispatchEvent(new Event('submit'));
       }
     });
   </script>
