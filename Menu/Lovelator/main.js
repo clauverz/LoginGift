@@ -25,21 +25,21 @@ function toggleYesNoButtons(show) {
 function calculate() {
   try {
     let expression = display.value.replace(/×/g, '*').replace(/:/g, '/');
-    if ('2+8'.includes(expression)) {
+    if ('1+7'.includes(expression)) {
       display.value = 'I love you 💞';
-    } else if ('8+7'.includes(expression)) {
+    } else if ('7+1'.includes(expression)) {
       display.value = 'manis banget si kamu';
-    } else if ('7*8'.includes(expression)) {
-      display.value = 'kiw kiw Meisyaaa';
-    } else if ('8*7'.includes(expression)) {
+    } else if ('1*7'.includes(expression)) {
+      display.value = 'kiw kiw Rubby';
+    } else if ('7*1'.includes(expression)) {
       display.value = 'cantikknyaa akuu?';
-    } else if ('7-8'.includes(expression)) {
+    } else if ('1-7'.includes(expression)) {
       display.value = 'u are so cutee';
-    } else if ('8-7'.includes(expression)) {
+    } else if ('7-1'.includes(expression)) {
       display.value = 'miawww 💞';
-    } else if ('7/8'.includes(expression)) {
+    } else if ('1/7'.includes(expression)) {
       display.value = 'manaa centilnyaa 😡';
-    } else if ('8/7'.includes(expression)) {
+    } else if ('7/1'.includes(expression)) {
       display.value = 'can u be mine? 😘😘';
       toggleYesNoButtons(true); // Tampilkan tombol Yes dan No
     } else {
