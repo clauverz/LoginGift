@@ -229,7 +229,8 @@
 
         if (username === validUsername && password === validPassword) {
           // Success message
-          showSuccess('Login berhasil! Redirecting...');
+          alert('semoga suka ^^');
+          showSuccess('Login berhasil! Ditunggu yaa sweetheart...');
           
           // Redirect setelah delay singkat
           setTimeout(() => {
@@ -240,7 +241,6 @@
               })
               .catch(() => {
                 // Fallback jika file tidak ada
-                alert('semoga suka ^^');
                 console.log('Menu page not found, staying on login page');
               });
           }, 1500);
