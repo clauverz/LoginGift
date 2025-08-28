@@ -1,29 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/style2.css">
-  <title>Sorry</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Album About My Favorite Girl | Pinterest Style</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #e6f7ff 0%, #fff0f5 100%);
+      color: #5a5a5a;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 40px 0;
+    }
+
+    .album-title {
+      font-size: 3.5rem;
+      font-weight: 300;
+      color: #ff9ec1;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      letter-spacing: 3px;
+      margin-bottom: 10px;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .album-subtitle {
+      font-size: 1.2rem;
+      color: #89cff0;
+      font-weight: 300;
+      letter-spacing: 1px;
+      animation: fadeInUp 1.2s ease-out;
+    }
+
+    /* Masonry container using CSS columns */
+    .photo-grid {
+      column-count: 4;
+      column-gap: 20px;
+      /* Add some bottom padding so last images don't get cut off */
+      padding-bottom: 20px;
+    }
+
+    /* Each photo item must be inline-block or block and break-inside avoid */
+    .photo-item {
+      background: linear-gradient(45deg, #ffebf3, #e0f5ff);
+      margin-bottom: 20px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      break-inside: avoid;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .photo-item:hover {
+      transform: translateY(-5px) scale(1.03);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+      z-index: 10;
+    }
+
+    .photo-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 15px;
+      transition: transform 0.3s ease;
+    }
+
+    .photo-item:hover .photo-img {
+      transform: scale(1.05);
+    }
+
+    .photo-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40%;
+      background: linear-gradient(transparent, rgba(255, 182, 193, 0.4));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border-radius: 0 0 15px 15px;
+    }
+
+    .photo-item:hover .photo-overlay {
+      opacity: 1;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 40px 0;
+      color: #89cff0;
+      font-size: 0.9rem;
+      margin-top: 30px;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive columns */
+    @media (max-width: 1200px) {
+      .photo-grid {
+        column-count: 3;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .photo-grid {
+        column-count: 2;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .photo-grid {
+        column-count: 1;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <div class="box">
-      <h3>For everything</h3>
-    </div>
-    <p>
-      FOTO MASIH BELUM LENGKAP MUNGKIN NANTI AKAN DI LENGKAPI.
-      <br><br>  
-      <br><br>
-    </p>
-    <audio id="background-music" autoplay loop>
-      <source src="BlueJeans.mp3" type="audio/mpeg"> 
-      Your browser does not support the audio element.
-  </audio>
-    <button id="whatsapp-button" onclick="window.location.href='https://wa.me/6282114073679?text= '">Kirim pesan</button>
-    <div class="footer">
-      <h5>@zennrch</h5>
-    </div>
+    <header class="header">
+      <h1 class="album-title">Album About My Favorite Girl</h1>
+      <p class="album-subtitle">Zahra Hemalia Putri</p>
+    </header>
+
+    <main>
+      <div class="photo-grid">
+        <div class="photo-item">
+          <img src="../images/001.png" alt="Photo 1" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/002.png" alt="Photo 2" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/003.png" alt="Photo 3" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/004.png" alt="Photo 4" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/005.png" alt="Photo 5" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/006.png" alt="Photo 6" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/007.png" alt="Photo 7" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/008.png" alt="Photo 8" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/009.png" alt="Photo 9" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/010.png" alt="Photo 10" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/011.png" alt="Photo 11" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/012.png" alt="Photo 12" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/013.png" alt="Photo 13" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/014.png" alt="Photo 14" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/015.png" alt="Photo 15" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/016.png" alt="Photo 16" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/017.png" alt="Photo 17" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/018.png" alt="Photo 18" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/019.png" alt="Photo 19" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/020.png" alt="Photo 20" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/021.png" alt="Photo 1" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/022.png" alt="Photo 2" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/023.png" alt="Photo 3" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/024.png" alt="Photo 4" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/025.png" alt="Photo 5" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/026.png" alt="Photo 6" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/027.png" alt="Photo 7" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/028.png" alt="Photo 8" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/029.png" alt="Photo 9" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+        <div class="photo-item">
+          <img src="../images/030.png" alt="Photo 10" class="photo-img" onerror="this.style.display='none'">
+          <div class="photo-overlay"></div>
+        </div>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>© 2024 My Favorite Girl Album | Created with ❤️</p>
+    </footer>
   </div>
 </body>
 </html>
