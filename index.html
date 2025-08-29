@@ -28,7 +28,7 @@
     .form-box {
       position: relative;
       width: 400px;
-      height: 450px;
+      height: 500px;
       background: transparent;
       border: 2px solid rgba(255, 255, 255, 0.5);
       border-radius: 20px;
@@ -37,6 +37,11 @@
       justify-content: center;
       align-items: center;
       box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-value {
+      width: 100%;
+      padding: 40px;
     }
 
     h2 {
@@ -49,7 +54,7 @@
     .inputbox {
       position: relative;
       margin: 30px 0;
-      width: 310px;
+      width: 100%;
       border-bottom: 2px solid hotpink;
     }
 
@@ -113,6 +118,7 @@
       font-size: 1em;
       font-weight: 600;
       transition: all 0.3s ease;
+      margin-top: 20px;
     }
 
     button:hover {
@@ -122,6 +128,12 @@
 
     button:active {
       transform: translateY(0);
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
     }
 
     .register {
@@ -141,19 +153,43 @@
       text-decoration: underline;
     }
 
-    /* Error message styling */
-    .error-message {
-      color: #ff6b6b;
+    /* Error/Success message styling */
+    .message {
       font-size: 0.9em;
       text-align: center;
-      margin-top: 10px;
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 5px;
       display: none;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    .error-message {
+      color: #ff6b6b;
+      background: rgba(255, 107, 107, 0.1);
+      border: 1px solid rgba(255, 107, 107, 0.3);
+    }
+
+    .success-message {
+      color: #51cf66;
+      background: rgba(81, 207, 102, 0.1);
+      border: 1px solid rgba(81, 207, 102, 0.3);
     }
 
     /* Loading state */
     .loading {
       opacity: 0.7;
-      pointer-events: none;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Responsive design */
@@ -164,8 +200,16 @@
         padding: 20px;
       }
       
+      .form-value {
+        padding: 20px;
+      }
+      
       .inputbox {
         width: 100%;
+      }
+
+      h2 {
+        font-size: 1.5em;
       }
     }
   </style>
@@ -179,13 +223,20 @@
           <h2>Login</h2>
           <div class="inputbox">
             <input type="text" id="username" required>
-            <label>Username</label>
+            <label for="username">Username</label>
           </div>
           <div class="inputbox">
             <input type="password" id="password" required>
-            <label>Password</label>
+            <label for="password">Password</label>
+          </div>
+          <div class="forget">
+            <a href="#">Forgot Password?</a>
           </div>
           <button type="submit" id="loginButton">Log in</button>
+          <div id="errorMessage" class="message"></div>
+          <div class="register">
+            <p>Don't have an account? <a href="#">Register</a></p>
+          </div>
         </form>
       </div>
     </div>
@@ -193,15 +244,17 @@
 
   <script>
     document.getElementById('loginForm').addEventListener('submit', function (e) {
-      e.preventDefault(); // Mencegah reload
+      e.preventDefault(); // Mencegah reload halaman
 
       const username = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value;
       const errorMessage = document.getElementById('errorMessage');
       const loginButton = document.getElementById('loginButton');
 
-      // Clear previous error messages
-      errorMessage.style.display = 'none';
+      console.log('Login attempt:', username); // Debug log
+
+      // Clear previous messages
+      clearMessage();
 
       // Basic validation
       if (!username || !password) {
@@ -214,28 +267,26 @@
       loginButton.disabled = true;
       document.querySelector('.form-box').classList.add('loading');
 
-      // Simulate network delay (remove in production)
+      // Simulate network delay
       setTimeout(() => {
         // Data login (dalam production, ini harus di server-side)
         const validUsername = 'ZahraHemaliaPutri';
         const validPassword = 'zahrapacarzen';
 
         if (username === validUsername && password === validPassword) {
-          // Success message
+          // Success
           alert('semoga suka ^^');
           showSuccess('Login berhasil! Ditunggu yaa sweetheart...');
           
           // Redirect setelah delay singkat
           setTimeout(() => {
-            // Cek apakah file target ada sebelum redirect
-            checkFileExists('Menu/menu.html')
-              .then(() => {
-                window.location.href = 'Menu/menu.html';
-              })
-              .catch(() => {
-                // Fallback jika file tidak ada
-                console.log('Menu page not found, staying on login page');
-              });
+            try {
+              window.location.href = 'Menu/menu.html';
+            } catch (error) {
+              console.log('Redirect error:', error);
+              showError('Halaman menu tidak ditemukan');
+              resetButton();
+            }
           }, 1500);
         } else {
           showError('Username atau Password salah!');
@@ -247,15 +298,20 @@
     function showError(message) {
       const errorMessage = document.getElementById('errorMessage');
       errorMessage.textContent = message;
+      errorMessage.className = 'message error-message';
       errorMessage.style.display = 'block';
-      errorMessage.style.color = '#ff6b6b';
     }
 
     function showSuccess(message) {
       const errorMessage = document.getElementById('errorMessage');
       errorMessage.textContent = message;
+      errorMessage.className = 'message success-message';
       errorMessage.style.display = 'block';
-      errorMessage.style.color = '#51cf66';
+    }
+
+    function clearMessage() {
+      const errorMessage = document.getElementById('errorMessage');
+      errorMessage.style.display = 'none';
     }
 
     function resetButton() {
@@ -265,24 +321,20 @@
       document.querySelector('.form-box').classList.remove('loading');
     }
 
-    // Function to check if file exists
-    function checkFileExists(url) {
-      return fetch(url, { method: 'HEAD' })
-        .then(response => {
-          if (response.ok) {
-            return Promise.resolve();
-          } else {
-            return Promise.reject();
-          }
-        })
-        .catch(() => Promise.reject());
-    }
+    // Test button functionality on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Page loaded, login form ready');
+      
+      // Test credentials untuk debugging
+      console.log('Valid credentials:');
+      console.log('Username: ZahraHemaliaPutri');
+      console.log('Password: zahrapacarzen');
+    });
 
-    // Add enter key support
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') {
-        document.getElementById('loginForm').dispatchEvent(new Event('submit'));
-      }
+    // Add click event sebagai backup
+    document.getElementById('loginButton').addEventListener('click', function(e) {
+      console.log('Button clicked!');
+      // Form submit akan handle ini
     });
   </script>
 </body>
