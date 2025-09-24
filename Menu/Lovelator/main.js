@@ -40,10 +40,10 @@ function calculate() {
     } else if ('1/4'.includes(expression)) {
       display.value = 'manaa centilnyaa 😡';
     }
-    // else if ('4/1'.includes(expression)) {
-    //   display.value = 'can u be mine? 😘😘';
-    //   toggleYesNoButtons(true); 
-    // }
+    else if ('4/1'.includes(expression)) {
+      display.value = 'can u be mine? 😘😘';
+      toggleYesNoButtons(true); 
+    }
     else {
       display.value = eval(expression);
       toggleYesNoButtons(false); // Sembunyikan tombol Yes dan No
