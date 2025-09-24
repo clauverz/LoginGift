@@ -1,11 +1,175 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selamat Ulang Tahun</title>
+<style>
+  :root{
+    --pink:#f8cce3;
+    --blue:#d0f0f8;
+    --pink-dark:#f49ac2;
+    --text:#5a5a5a;
+  }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: linear-gradient(180deg,var(--pink),var(--blue));
+    color: var(--text);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    text-align: center;
+  }
+  .hidden{display:none}
+  .big-text{
+    font-size:5rem;
+    font-weight:700;
+    margin:0;
+    color:var(--pink-dark);
+    text-shadow:0 3px 6px rgba(0,0,0,.1);
+  }
+  .cake-wrap{
+    margin-top:40px;
+  }
+  .cake{
+    position:relative;
+    width:180px;
+    height:110px;
+    margin:auto;
+    background:var(--pink-dark);
+    border-radius:12px 12px 0 0;
+    box-shadow:0 6px #e58bb1;
+  }
+  .cake::after{
+    content:'';
+    position:absolute;
+    width:180px;
+    height:25px;
+    top:-25px;
+    background:#fbc6dc;
+    border-radius:12px 12px 0 0;
+  }
+  .candle{
+    position:absolute;
+    top:-50px;
+    left:50%;
+    transform:translateX(-50%);
+    width:22px;
+    height:50px;
+    background:#fff8dc;
+    border-radius:6px;
+    box-shadow:0 0 0 1px rgba(0,0,0,.05);
+    cursor:pointer;
+  }
+  .flame{
+    position:absolute;
+    top:-18px;
+    left:50%;
+    transform:translateX(-50%);
+    width:18px;
+    height:18px;
+    background:radial-gradient(circle,#ff0 30%,#ff8c00 70%);
+    border-radius:50%;
+    animation:flicker .3s infinite alternate;
+    box-shadow:0 0 15px 5px rgba(255,200,0,.4);
+  }
+  @keyframes flicker{
+    from{transform:translateX(-50%) scale(1);opacity:1}
+    to{transform:translateX(-50%) scale(1.2);opacity:.8}
+  }
+  #birthday-msg{
+    font-size:2.4rem;
+    font-weight:600;
+    margin-top:20px;
+    color:var(--pink-dark);
+    text-shadow:0 2px 4px rgba(0,0,0,.08);
+  }
+  #time-since{
+    margin-top:15px;
+    font-size:1.2rem;
+    color:#666;
+  }
+  #greeting{
+    margin-top:15px;
+    font-size:1.3rem;
+    color:#444;
+  }
+  p.hint{
+    font-size:1rem;
+    margin-top:10px;
+    color:#555;
+  }
+</style>
 </head>
 <body>
-  <h1>halo sayang</h1>
+
+<h1 id="countdown" class="big-text"></h1>
+
+<div id="cake-section" class="hidden">
+  <div class="cake-wrap">
+    <div class="cake">
+      <div class="candle" id="candle">
+        <div class="flame" id="flame"></div>
+      </div>
+    </div>
+  </div>
+  <p class="hint">Klik lilin untuk mematikannya 🎂</p>
+</div>
+
+<div id="message-section" class="hidden">
+  <div id="birthday-msg">Selamat Ulang Tahun! 🎉🎂💖</div>
+  <div id="time-since"></div>
+  <!-- tambahkan ucapan di bawah waktu -->
+  <div id="greeting"><br>Selamat Ulang Tahun Sayangkuu, wakakaka maaf yaa telatt bangett baru ngucapin... semoga di tahun kedepannya kamu bisa menjadi seseorang yang selalu bahagia, selalu di pertemukan dengan hal hal yang baik. <br> HappyBirthDay yaa cantikknyaa akuu, sayangnya akuu, manisnyaa akuu, my queen heart 💕, betahh betah teruss yaa sama akuu sayangg.</div>
+</div>
+
+<script>
+  let count=3;
+  const countdownEl=document.getElementById('countdown');
+  const cakeSection=document.getElementById('cake-section');
+  const messageSection=document.getElementById('message-section');
+  const flame=document.getElementById('flame');
+  const candle=document.getElementById('candle');
+
+  countdownEl.textContent=count;
+  const timer=setInterval(()=>{
+    count--;
+    if(count>0){
+      countdownEl.textContent=count;
+    }else{
+      clearInterval(timer);
+      countdownEl.classList.add('hidden');
+      cakeSection.classList.remove('hidden');
+    }
+  },1000);
+
+  candle.addEventListener('click',()=>{
+    flame.style.display='none';
+    cakeSection.classList.add('hidden');
+    messageSection.classList.remove('hidden');
+    updateTimeSince();
+    setInterval(updateTimeSince,1000);
+  });
+
+  function updateTimeSince(){
+    const start=new Date('2011-09-11T00:00:00');
+    const now=new Date();
+    let diff=Math.floor((now-start)/1000);
+    const years=Math.floor(diff/(60*60*24*365));
+    diff%=60*60*24*365;
+    const days=Math.floor(diff/(60*60*24));
+    diff%=60*60*24;
+    const hours=Math.floor(diff/3600);
+    diff%=3600;
+    const minutes=Math.floor(diff/60);
+    const seconds=diff%60;
+    document.getElementById('time-since').textContent=
+      `Sudah ${years} tahun ${days} hari ${hours} jam ${minutes} menit ${seconds} detik sejak kelahiran wanita tercantik kedua setelah ibuku.`;
+  }
+</script>
+
 </body>
 </html>

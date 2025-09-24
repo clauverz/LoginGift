@@ -25,24 +25,26 @@ function toggleYesNoButtons(show) {
 function calculate() {
   try {
     let expression = display.value.replace(/×/g, '*').replace(/:/g, '/');
-    if ('1+7'.includes(expression)) {
+    if ('1+4'.includes(expression)) {
       display.value = 'I love you 💞';
-    } else if ('7+1'.includes(expression)) {
+    } else if ('4+1'.includes(expression)) {
       display.value = 'manis banget si kamu';
-    } else if ('1*7'.includes(expression)) {
-      display.value = 'kiw kiw Rubby';
-    } else if ('7*1'.includes(expression)) {
+    } else if ('1*4'.includes(expression)) {
+      display.value = 'kiw kiw sayangg';
+    } else if ('4*1'.includes(expression)) {
       display.value = 'cantikknyaa akuu?';
-    } else if ('1-7'.includes(expression)) {
+    } else if ('1-4'.includes(expression)) {
       display.value = 'u are so cutee';
-    } else if ('7-1'.includes(expression)) {
+    } else if ('4-1'.includes(expression)) {
       display.value = 'miawww 💞';
-    } else if ('1/7'.includes(expression)) {
+    } else if ('1/4'.includes(expression)) {
       display.value = 'manaa centilnyaa 😡';
-    } else if ('7/1'.includes(expression)) {
-      display.value = 'can u be mine? 😘😘';
-      toggleYesNoButtons(true); // Tampilkan tombol Yes dan No
-    } else {
+    }
+    // else if ('4/1'.includes(expression)) {
+    //   display.value = 'can u be mine? 😘😘';
+    //   toggleYesNoButtons(true); 
+    // }
+    else {
       display.value = eval(expression);
       toggleYesNoButtons(false); // Sembunyikan tombol Yes dan No
     }
