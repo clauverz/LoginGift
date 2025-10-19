@@ -152,40 +152,50 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.2);
         }
 
-        .menu-item.music {
-            --gradient-color-1: #BDE0FE;
-            --gradient-color-2: #FFC8DD;
-            background: linear-gradient(145deg, #BDE0FE, #e3f2ff);
-        }
-
+        
         .menu-item.profile {
             --gradient-color-1: #FFC8DD;
             --gradient-color-2: #FFAFCC;
             background: linear-gradient(145deg, #FFC8DD, #ffe3ee);
         }
-
-        .menu-item.stories {
+        .menu-item.profile-2 {
+            --gradient-color-1: #FFC8DD;
+            --gradient-color-2: #FFAFCC;
+            background: linear-gradient(200deg, #FFC8DD, #ffe3ee);
+        }
+        .menu-item.album {
             --gradient-color-1: #CDB4DB;
-            --gradient-color-2: #BDE0FE;
+            --gradient-color-2: #CDB4DB;
+            background: linear-gradient(180deg, #ffe3ee, #CDB4DB);
+        }
+        .menu-item.music {
+            --gradient-color-1: #FFAFCC;
+            --gradient-color-2: #CDB4DB;
+            background: linear-gradient(165deg, #FFC8DD, #BDE0FE);
+        }
+
+        .menu-item.calc {
+            --gradient-color-1: #CDB4DB;
+            --gradient-color-2: #CDB4DB;
             background: linear-gradient(145deg, #CDB4DB, #e6d7ee);
         }
 
-        .menu-item.learning {
+        .menu-item.flowers {
             --gradient-color-1: #FFAFCC;
             --gradient-color-2: #CDB4DB;
-            background: linear-gradient(145deg, #FFAFCC, #ffc9d4);
+            background: linear-gradient(205deg, #FFC8DD, #BDE0FE);
         }
 
-        .menu-item.art {
+        .menu-item.words {
             --gradient-color-1: #BDE0FE;
             --gradient-color-2: #CDB4DB;
             background: linear-gradient(145deg, #BDE0FE, #d4e7fd);
         }
 
-        .menu-item.videos {
-            --gradient-color-1: #FFC8DD;
-            --gradient-color-2: #BDE0FE;
-            background: linear-gradient(145deg, #FFC8DD, #e8f3fe);
+        .menu-item.birthday {
+            --gradient-color-1: #BDE0FE;
+            --gradient-color-2: #CDB4DB;
+            background: linear-gradient(145deg, #BDE0FE, #d4e7fd);
         }
 
         .menu-icon {
@@ -273,54 +283,65 @@
     <div class="star star-3">⭐</div>
     <div class="star star-4">✨</div>
 
-    <div class="header">
-        <h1>Di Pilih Menu nya anak kecil</h1>
-        <p>Dipilih Teman</p>
+<div class="header">
+    <h1>Di Pilih Menunya</h1>
+    <p>Dipilih Teman</p>
+</div>
+
+<!-- Container khusus untuk dua profile -->
+<div class="menu-container profile-container">
+    <div class="menu-item profile" onclick="navigateTo('profile')">
+        <div class="menu-icon">👤</div>
+        <h2 class="menu-title">Hanifah Dzikra Rabbani</h2>
+        <p class="menu-description">A Cuttest Person</p>
     </div>
 
-        <div class="menu-item profile" onclick="navigateTo('profile')">
-            <div class="menu-icon">👤</div>
-            <h2 class="menu-title">Profile</h2>
-            <p class="menu-description">A Cuttest Person</p>
-        </div>
+    <div class="menu-item profile-2" onclick="navigateTo('profile-2')">
+        <div class="menu-icon">👤</div>
+        <h2 class="menu-title">Writers</h2>
+        <p class="menu-description">Tentang Penulis</p>
+    </div>
+</div>
 
-    <div class="menu-container">
-        <div class="menu-item music" onclick="navigateTo('music')">
-            <div class="menu-icon">🎵</div>
-            <h2 class="menu-title">Musik</h2>
-            <p class="menu-description">Dengarkan lagu-lagu favorit dan bernyanyi bersama!</p>
-        </div>
-
-        <div class="menu-item stories" onclick="navigateTo('stories')">
-            <div class="menu-icon">📚</div>
-            <h2 class="menu-title">Album</h2>
-            <p class="menu-description">Album about a Cutest Person</p>
-        </div>
-
-        <div class="menu-item learning" onclick="navigateTo('learning')">
-            <div class="menu-icon">💐</div>
-            <h2 class="menu-title">Flowers</h2>
-            <p class="menu-description">When you tired check open this flower</p>
-        </div>
-
-        <div class="menu-item learning" onclick="navigateTo('art')">
-            <div class="menu-icon">💖</div>
-            <h2 class="menu-title">Affirmation</h2>
-            <p class="menu-description">Buat Mewarai harimu dengan kata kata</p>
-        </div>
-
-        <div class="menu-item stories" onclick="navigateTo('calc')">
-            <div class="menu-icon">^^</div>
-            <h2 class="menu-title">LoveCalc</h2>
-            <p class="menu-description">Kalkulator yang berisi rahasia</p>
-        </div>
-        <div class="menu-item music" onclick="navigateTo('birth')">
-            <div class="menu-icon">OwO</div>
-            <h2 class="menu-title">HappyBirthBirthday</h2>
-            <p class="menu-description">Ungkapan dari seseorang</p>
-        </div>
+<br>
+<!-- Container untuk menu lainnya -->
+<div class="menu-container">
+    <div class="menu-item music" onclick="navigateTo('music')">
+        <div class="menu-icon">🎵</div>
+        <h2 class="menu-title">Musik</h2>
+        <p class="menu-description">Dengarkan lagu-lagu favorit dan bernyanyi bersama!</p>
     </div>
 
+    <div class="menu-item album" onclick="navigateTo('album')">
+        <div class="menu-icon">📚</div>
+        <h2 class="menu-title">Album</h2>
+        <p class="menu-description">Album about a Cutest Person</p>
+    </div>
+
+    <div class="menu-item flowers" onclick="navigateTo('flowers')">
+        <div class="menu-icon">💐</div>
+        <h2 class="menu-title">Flowers</h2>
+        <p class="menu-description">When you tired check open this flower</p>
+    </div>
+
+    <div class="menu-item words" onclick="navigateTo('words')">
+        <div class="menu-icon">💖</div>
+        <h2 class="menu-title">Affirmation</h2>
+        <p class="menu-description">Buat Mewarai harimu dengan kata kata</p>
+    </div>
+
+    <div class="menu-item calc" onclick="navigateTo('calc')">
+        <div class="menu-icon">^^</div>
+        <h2 class="menu-title">Lovecalc</h2>
+        <p class="menu-description">Kalkulator yang berisi rahasia</p>
+    </div>
+
+    <div class="menu-item birthday" onclick="navigateTo('birth')">
+        <div class="menu-icon">OwO</div>
+        <h2 class="menu-title">HappyBirthBirthday</h2>
+        <p class="menu-description">Ungkapan dari seseorang</p>
+    </div>
+</div>
     <script>
         function navigateTo(page) {
             // Add click animation
@@ -332,16 +353,19 @@
                     case 'profile':
                         window.location.href = 'profile/profile.html'; // atau URL profile Anda
                         break;
+                    case 'profile-2':
+                        window.location.href = 'profile/profile-2.html'; // atau URL profile Anda
+                        break;
                     case 'music':
                         window.location.href = 'music/music.html'; // atau URL musik Anda
                         break;
-                    case 'stories':
+                    case 'album':
                         window.location.href = 'FavAlbum-main/album.html'; // atau URL cerita Anda
                         break;
-                    case 'learning':
+                    case 'flowers':
                         window.location.href = 'flower/flower.html'; // atau URL belajar Anda
                         break;
-                    case 'art':
+                    case 'words':
                         window.location.href = 'affirmation/words.html'; // atau URL menggambar Anda
                         break;
                     case 'calc':

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Friend Profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Neue', cursive;
+            background: linear-gradient(135deg, #BDE0FE 0%, #FFC8DD 50%, #CDB4DB 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Floating shapes decoration */
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.2;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .shape-1 {
+            width: 100px;
+            height: 100px;
+            background: #FFAFCC;
+            top: 10%;
+            left: 8%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 70px;
+            height: 70px;
+            background: #CDB4DB;
+            top: 15%;
+            right: 12%;
+            animation-delay: 3s;
+        }
+
+        .shape-3 {
+            width: 120px;
+            height: 120px;
+            background: #BDE0FE;
+            bottom: 10%;
+            left: 15%;
+            animation-delay: 6s;
+        }
+
+        .shape-4 {
+            width: 80px;
+            height: 80px;
+            background: #FFC8DD;
+            bottom: 20%;
+            right: 8%;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+            25% { transform: translateY(-15px) rotate(90deg) scale(1.1); }
+            50% { transform: translateY(-30px) rotate(180deg) scale(0.9); }
+            75% { transform: translateY(-15px) rotate(270deg) scale(1.1); }
+        }
+
+        /* Stars decoration */
+        .star {
+            position: absolute;
+            color: #ffd700;
+            font-size: 1.8rem;
+            animation: twinkle 3s ease-in-out infinite;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .star-1 { top: 12%; left: 6%; animation-delay: 0s; }
+        .star-2 { top: 25%; right: 10%; animation-delay: 1s; }
+        .star-3 { bottom: 30%; left: 10%; animation-delay: 2s; }
+        .star-4 { bottom: 15%; right: 12%; animation-delay: 0.5s; }
+        .star-5 { top: 40%; left: 3%; animation-delay: 1.5s; }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1.3) rotate(180deg); }
+        }
+
+        /* Profile Card Container */
+        .profile-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(240,240,240,0.8));
+            backdrop-filter: blur(10px);
+            border-radius: 2.5rem;
+            padding: 2.5rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border: 3px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            overflow: hidden;
+            animation: cardGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes cardGlow {
+            0%, 100% { box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+            50% { box-shadow: 0 25px 50px rgba(189, 224, 254, 0.3); }
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 2.5rem;
+            padding: 3px;
+            background: linear-gradient(45deg, #BDE0FE, #FFC8DD, #CDB4DB, #FFAFCC);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: xor;
+            z-index: -1;
+            animation: borderRotate 6s linear infinite;
+        }
+
+        @keyframes borderRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    .profile-btn {
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        background: linear-gradient(45deg, #FFC8DD, #FFAFCC);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 10;
+    }
+
+    .profile-btn:hover {
+        background: linear-gradient(45deg, #FFAFCC, #FFC8DD);
+        transform: scale(1.1);
+        box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+    }
+
+        /* Profile Image */
+        .profile-image-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #ffffff;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .image-ring {
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            width: 136px;
+            height: 136px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #BDE0FE, #FFC8DD, #CDB4DB);
+            z-index: -1;
+            animation: ringRotate 4s linear infinite;
+        }
+
+        @keyframes ringRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Profile Info */
+        .profile-name {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2d1b3d;
+            margin-bottom: 0.5rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            animation: nameGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes nameGlow {
+            from { text-shadow: 1px 1px 3px rgba(0,0,0,0.1); }
+            to { text-shadow: 2px 2px 8px rgba(189, 224, 254, 0.5); }
+        }
+
+        .profile-details {
+            background: linear-gradient(135deg, #BDE0FE20, #FFC8DD20);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            border-radius: 0.75rem;
+            background: rgba(255,255,255,0.4);
+            transition: all 0.3s ease;
+        }
+
+        .detail-item:hover {
+            background: rgba(255,255,255,0.6);
+            transform: translateX(5px);
+        }
+
+        .detail-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.1rem;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .icon-age { background: linear-gradient(45deg, #FFAFCC, #FFC8DD); }
+        .icon-birthday { background: linear-gradient(45deg, #FFC8DD, #CDB4DB); }
+        .icon-hobby { background: linear-gradient(45deg, #CDB4DB, #BDE0FE); }
+        .icon-about { background: linear-gradient(45deg, #BDE0FE, #FFAFCC); }
+
+        .detail-content {
+            flex: 1;
+            text-align: left;
+        }
+
+        .detail-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #5a4b6b;
+            margin-bottom: 0.2rem;
+        }
+
+        .detail-value {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #2d1b3d;
+            line-height: 1.4;
+        }
+
+        /* About section special styling */
+        .about-section {
+            background: linear-gradient(135deg, #CDB4DB30, #BDE0FE30);
+            border-radius: 1.2rem;
+            padding: 1.2rem;
+            margin-top: 1.5rem;
+            border: 2px solid rgba(205, 180, 219, 0.3);
+        }
+
+        .about-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2d1b3d;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-title i {
+            margin-right: 0.5rem;
+            color: #8b5cf6;
+        }
+
+        .about-text {
+            font-size: 0.95rem;
+            color: #5a4b6b;
+            line-height: 1.6;
+            text-align: center;
+            font-style: italic;
+        }
+
+        /* Decorative elements */
+        .heart {
+            position: absolute;
+            color: #ff6b9d;
+            font-size: 1.2rem;
+            animation: heartBeat 2s ease-in-out infinite;
+        }
+
+        .heart-1 { top: 10%; right: 15%; animation-delay: 0s; }
+        .heart-2 { bottom: 15%; left: 10%; animation-delay: 1s; }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.3); opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .profile-card {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+            
+            .profile-image {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .image-ring {
+                width: 116px;
+                height: 116px;
+                top: -8px;
+                left: -8px;
+            }
+            
+            .profile-name {
+                font-size: 1.6rem;
+            }
+            
+            .detail-item {
+                flex-direction: column;
+                text-align: center;
+                padding: 1rem;
+            }
+            
+            .detail-icon {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+            
+            .detail-content {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating shapes -->
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+    <div class="floating-shape shape-3"></div>
+    <div class="floating-shape shape-4"></div>
+
+    <!-- Stars -->
+    <div class="star star-1">⭐</div>
+    <div class="star star-2">✨</div>
+    <div class="star star-3">🌟</div>
+    <div class="star star-4">💫</div>
+    <div class="star star-5">⭐</div>
+
+    <!-- Hearts -->
+    <div class="heart heart-1">💖</div>
+    <div class="heart heart-2">💕</div>
+
+    <!-- Profile Card -->
+    <div class="profile-card">
+
+        <button class="profile-btn" onclick="window.location.href='../menu.html'">
+        ⬅️
+        </button>
+        <div class="profile-image-container">
+            <div class="image-ring"></div>
+            <img src="writers.jpeg" alt="Profile Picture" class="profile-image">
+        </div>
+
+        <h1 class="profile-name">Ibnu Hambal Al Bantani Rch</h1>
+
+        <div class="profile-details">
+            <div class="detail-item">
+                <div class="detail-icon icon-age">
+                    <i class="fas fa-birthday-cake"></i>
+                </div>
+                <div class="detail-content">
+                    <div class="detail-label">Umur</div>
+                    <div class="detail-value">16 Tahun</div>
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-icon icon-birthday">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div class="detail-content">
+                    <div class="detail-label">Tanggal Lahir</div>
+                    <div class="detail-value">13 Juli 2009</div>
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <div class="detail-icon icon-hobby">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="detail-content">
+                    <div class="detail-label">Hobi</div>
+                    <div class="detail-value">Reading, Badminton, Magic </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-section">
+            <div class="about-title">
+                <i class="fas fa-user"></i>
+                Tentang Penulis
+            </div>
+            <p class="about-text">
+                
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Add sparkle effect when hovering over profile image
+        document.querySelector('.profile-image').addEventListener('mouseenter', function() {
+            createSparkles(this);
+        });
+
+        function createSparkles(element) {
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.innerHTML = Math.random() > 0.5 ? '✨' : '💫';
+                    sparkle.style.position = 'absolute';
+                    sparkle.style.fontSize = '1.2rem';
+                    sparkle.style.color = '#ffd700';
+                    sparkle.style.pointerEvents = 'none';
+                    sparkle.style.zIndex = '1000';
+                    
+                    const rect = element.getBoundingClientRect();
+                    sparkle.style.left = (rect.left + Math.random() * rect.width) + 'px';
+                    sparkle.style.top = (rect.top + Math.random() * rect.height) + 'px';
+                    
+                    document.body.appendChild(sparkle);
+                    
+                    // Animate sparkle
+                    sparkle.animate([
+                        { opacity: 0, transform: 'translateY(0px) scale(0) rotate(0deg)' },
+                        { opacity: 1, transform: 'translateY(-30px) scale(1) rotate(180deg)' },
+                        { opacity: 0, transform: 'translateY(-60px) scale(0) rotate(360deg)' }
+                    ], {
+                        duration: 1500,
+                        easing: 'ease-out'
+                    }).onfinish = () => sparkle.remove();
+                }, i * 100);
+            }
+        }
+
+        // Add click effect on detail items
+        document.querySelectorAll('.detail-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+
+        // Add typing effect to the about text (optional)
+        const aboutText = document.querySelector('.about-text');
+        const originalText = aboutText.textContent;
+        
+        function typeWriter() {
+            aboutText.textContent = '';
+            let i = 0;
+            const timer = setInterval(() => {
+                aboutText.textContent += originalText.charAt(i);
+                i++;
+                if (i > originalText.length) {
+                    clearInterval(timer);
+                }
+            }, 50);
+        }
+
+        // Uncomment the line below if you want typing effect on page load
+        // setTimeout(typeWriter, 1000);
+    </script>
+</body>
+</html>
