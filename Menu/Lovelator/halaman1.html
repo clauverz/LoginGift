@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>Halaman 1</title>
+  <title>Forgive</title>
+  <link rel="icon" type="image/x-icon" href="Halaman1.ico">
   <link rel="stylesheet" href="style.css" />
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
@@ -14,19 +15,21 @@
       padding: 0;
       font-family: "Poppins", sans-serif;
       box-sizing: border-box;
-      overflow: hidden;
     }
 
     body {
       height: 100vh;
       width: 100%;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      justify-content: flex-start;
       align-items: center;
       background-image: url('https://raw.githubusercontent.com/DzarelDeveloper/Img/refs/heads/main/IMG-20240928-WA0027.jpg'); /* Ganti dengan URL gambar latar belakang */
       background-size: cover;
       background-position: center;
       color: #fff;
+      padding: 0 0 50px 0;
+       overflow-y: auto; /* ✅ ini memungkinkan scroll di Android */
     }
 
     .countdown-container {
@@ -50,6 +53,7 @@
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      margin: 0 15px;
     }
 
     .next-screen h1 {
@@ -83,27 +87,50 @@
     }
 
     #whatsapp-button:hover {
-      background: linear-gradient(45deg, #fad0c4, #ff9a9e); 
+      background: linear-gradient(45deg, #fad0c4, #ff9a9e);       
     }
+    @media (max-width: 768px) {
+    .countdown-container h1,
+    next-screen h1 {
+    font-size: 2rem;
+    margin-top: 40px; /* ✅ beri jarak dari atas layar */
+  }
+
+  .countdown-container {
+    margin-top: 20px;
+  }
+
+  .next-screen {
+    padding: 15px;
+    margin-top: 40px;
+  }
+}
+    
   </style>
 </head>
 <body>
   <div class="countdown-container" id="countdownContainer">
     <h1>Countdown</h1>
-    <div class="countdown" id="countdown">03</div>
+    <div class="countdown" id="countdown">00</div>
   </div>
 
   <div class="next-screen" id="nextScreen">
-    <h1>Welcome sayangkuu</h1>
-    <p>Will you be my Lovers prettiest?? kaloo kamu bukaa inii berartii jawabannyaa pastii yesss, akuu gatauu kecepetan atauuu enggaa tapii jujur akuu pengen cepet cepet jadii punyaa kamuu, biarr kamuu gaa ada di ambil samaaa orang wakakaka, teruss akuu pengen jadi punyaa kamuu karnaa ituu kamuu, kamuu lucuu bangett, hal hal random yang kamu lakuin tuu gemess bangett, teruss kamuu bisaa nemenin akuu di call akuu seneng bangett pokoknyaaa, seringg seringg vc yaa sayangg nantii jugaa biar kebiasaa jadi gaa maluu maluu💕</p>
+    <h1>Yo Halo</h1>
+    <p>
+      'I'm Proud Of You.' yaps itulah kata kata yang dari dulu pengen aku ucapin ke kamu, aku 'bangga' ngeliat  hal hal yang kamu lakuin, seseorang wanita yang kuat, keren, manis, lucu, nyebelin, dan terkadang menangis ketika dirinya meledak karna berpura pura kuat, dan that why I'm proud of you, sebanyak apapun rintangan yang kamu hadapi, kamu selalu berusaha buat nyelesain itu. 
+      <br><br>
+      Beda banget sama aku yang takut akan sesuatu masalah, lari dari masalah yang ada di depan aku, ga berani buat ngasih ruang ke seseorang, selalu egois... aku selalu ngerasa bersalah, dimana pun aku ngelakuin sesuatu sama orang lain yang baru aku kenal, aku selalu mikir 'Kenapa dulu aku ga ngelakuin ini juga ke kamu...?' andaikan aku gaa kaya anak kecil waktu itu. setelah 2 tahun ini aku selalu nimbun banyak catatan, yaps isi catatan itu jujur ga beda jauh semua, hampir seluruh catatan berisi kata 'maaf' lagi dan lagi.
+      <br><br>
+      Ntah apa yang aku pikirin sewaktu aku bikin catatan yang ga akan pernah kamu buka itu... tapi terkadang aku cuman berharap mungkin suatu saat kamu baca catatan" itu. </p>
     <div class="button-container">
-      <button id="whatsapp-button" onclick="window.location.href='https://wa.me/6282114073679?text= '">Kirim pesan buat pacar kamu </button>
+      <button id="whatsapp-button" onclick="window.location.href='https://wa.me/6282114073679?text= '">Kirim pesan buat Teman kamu </button>
+      <button id="whatsapp-button" onclick="window.location.href='../menu.html'">Back To Menu </button>
     </div>
   </div>
 
   <script>
     // Waktu countdown (3 detik)
-    let timeLeft = 3;
+    let timeLeft = 0;
     const countdownElement = document.getElementById('countdown');
     const countdownContainer = document.getElementById('countdownContainer');
     const nextScreenElement = document.getElementById('nextScreen');

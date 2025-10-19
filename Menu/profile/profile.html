@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Lovers Profile</title>
+    <title>My Friend Profile</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
@@ -140,6 +140,28 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
+    .profile-btn {
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        background: linear-gradient(45deg, #FFC8DD, #FFAFCC);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 10;
+    }
+
+    .profile-btn:hover {
+        background: linear-gradient(45deg, #FFAFCC, #FFC8DD);
+        transform: scale(1.1);
+        box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+    }
 
         /* Profile Image */
         .profile-image-container {
@@ -367,12 +389,16 @@
 
     <!-- Profile Card -->
     <div class="profile-card">
+
+        <button class="profile-btn" onclick="window.location.href='../menu.html'">
+        ⬅️
+        </button>
         <div class="profile-image-container">
             <div class="image-ring"></div>
             <img src="044.jpg" alt="Profile Picture" class="profile-image">
         </div>
 
-        <h1 class="profile-name">Dinda Kholifatun Nafiah</h1>
+        <h1 class="profile-name">Hanifah Dzikra Rabbani</h1>
 
         <div class="profile-details">
             <div class="detail-item">
@@ -381,7 +407,7 @@
                 </div>
                 <div class="detail-content">
                     <div class="detail-label">Umur</div>
-                    <div class="detail-value">14 Tahun</div>
+                    <div class="detail-value">16 Tahun</div>
                 </div>
             </div>
 
@@ -391,7 +417,7 @@
                 </div>
                 <div class="detail-content">
                     <div class="detail-label">Tanggal Lahir</div>
-                    <div class="detail-value">11 September 2011</div>
+                    <div class="detail-value">30 September 2009</div>
                 </div>
             </div>
 
@@ -401,7 +427,7 @@
                 </div>
                 <div class="detail-content">
                     <div class="detail-label">Hobi</div>
-                    <div class="detail-value">Nonton Movie</div>
+                    <div class="detail-value">Menggambar, Badminton, Nonton </div>
                 </div>
             </div>
         </div>
@@ -409,10 +435,10 @@
         <div class="about-section">
             <div class="about-title">
                 <i class="fas fa-user"></i>
-                Tentang nya
+                Tentang nya dari penulis
             </div>
             <p class="about-text">
-                Ia adalah seorang perempuan dengan kecantikan yang luar biasa indah bagiku, manis seperti permen dan lucu seperti anak kecil, terkadang kelakuan dia begitu sangatt menggemaskan, suara dia sangat nyaman untuk di dengar apalagi saat dia sedang dalam kondisi mengantuk atau sedang... ^w^, semua tentang dia begitu indah, dia sangat spesial hingga aku tidak terpikat oleh orang lain selain dirinya, ibarat bunga putih di tengah kumpulan bunga merah ✨
+                Aku kurang tahu bagaiamana dia sekarang, namun aku hanya mengetahui dia dimasa lalu, dia adalah seseorang yang sangat luar biasa, menggemaskan, lucu, wanita yang kuat, anak kecil, sikap randomnya, selalu memotong rambutnya hingga pendek, wanita yang cengeng, dan masih banyak, dia juga sangat jago dalam menggambar, aku selalu terpesona dengan apa yang ia gambar, bukan cuman itu, dia juga sangat menyukai suatu character anime ingin kusebut namun ada rasa cemburu disini. Dan dia adalah satu satunya wanita yang sangat mirip dengan ibuku, bahkan dia juga satu satunya wanita yang selalu ditanyakan oleh ibuku. 
             </p>
         </div>
     </div>

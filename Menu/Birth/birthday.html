@@ -92,16 +92,68 @@
     font-size:1.2rem;
     color:#666;
   }
-  #greeting{
-    margin-top:15px;
-    font-size:1.3rem;
-    color:#444;
+  #greeting {
+    font-size: 1.1rem;
+    color: #444;
+    line-height: 1.6;
   }
   p.hint{
     font-size:1rem;
     margin-top:10px;
     color:#555;
   }
+
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+  }
+
+  .card {
+    flex: 1 1 300px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    text-align: left;
+  }
+
+  .card.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @keyframes fadeInUp {
+    from {opacity: 0; transform: translateY(40px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+
+  /* Tombol kembali */
+  .back-btn {
+    margin-top: 25px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background: var(--pink-dark);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    transition: background 0.3s, transform 0.2s;
+  }
+
+  .back-btn:hover {
+    background: #e68ab3;
+    transform: translateY(-2px);
+  }
+
 </style>
 </head>
 <body>
@@ -116,14 +168,46 @@
       </div>
     </div>
   </div>
-  <p class="hint">Klik lilin untuk mematikannya 🎂</p>
+  <p class="hint">Klik lilin buat matiin apinya 🎂</p>
 </div>
 
 <div id="message-section" class="hidden">
-  <div id="birthday-msg">Selamat Ulang Tahun! 🎉🎂💖</div>
+  <div id="birthday-msg">Happy BirthDay To You!</div>
   <div id="time-since"></div>
-  <!-- tambahkan ucapan di bawah waktu -->
-  <div id="greeting"><br>Selamat Ulang Tahun Sayangkuu, wakakaka maaf yaa telatt bangett baru ngucapin... semoga di tahun kedepannya kamu bisa menjadi seseorang yang selalu bahagia, selalu di pertemukan dengan hal hal yang baik. <br> HappyBirthDay yaa cantikknyaa akuu, sayangnya akuu, manisnyaa akuu, my queen heart 💕, betahh betah teruss yaa sama akuu sayangg.</div>
+  <div class="container">
+    <div class="card">
+      <div id="greeting">
+        Dari Seseorang Pada Tahun 2024: 
+        <br>
+        Happy BirthDay <strong><i>Hanifah Dzikra Rabbani</i></strong>.. 
+        <br><br>
+        Surat ini aku tulis ditanggal 28 Maret 2024 ketika bulan puasa, ntah apa yang ngebikin aku bikin surat ini sekarang, aku cuman pengen ngucapin happy birthday yaa... walaupun kecepetan 2 hari tapi aku pengen aja ngucapin duluan, semoga di tahun 2024 kamu dipenuhi sama orang orang baik, orang orang yang bisa ngertiin kamu, selalu bereaksi dengan apapun yang kamu lakuin, dengerin keluh kesah kamu, dan lebih terbuka lagi ke orang itu, semoga waktu nanti keterima juga di SMA pilihan kamu itu, walaupun yaa aku ga bakal bisa liat kamu lagi... tapi jujur si aga percuma juga ngeliat kamu sama temen deket aku sendiri haha, jujur aja surat ini gatau bisa aku kirim ke kamu, atau surat ini cuman bisa jadi catatan doang, semoga aja bisa ke kirim.
+      </div>
+    </div>
+    <div class="card">
+      <div id="greeting">
+        Dari Seseorang Pada Tahun 2025:
+        <br>
+        Happy BirthDay lagi ya <strong><i>Hanifah Dzikra Rabbani</i></strong>.. 
+        <br><br>
+        Aku gatau surat ini bisa kesampein ke kamu atau engga, aku kurang yakin bisa kirim ini ke kamu karna surat sebelumnya aja cuman ada di file hp kesimpen rapih. Semoga di tahun ini dan kedepannya kamu bisa menjadi seseorang yang selalu bahagia, selalu di pertemukan dengan hal-hal yang baik, inget selalu jaga kesehatannya hanii, jangan ga pedulian sama kesehatan, mungkin kamu selalu ngira itu sepele cuman bagi seseorang kesehatan kamu itu beneran berharga, semoga di tahun ini juga harapan sama semua keingan kamu bisa terkabul. 
+      </div>
+    </div>
+    <div class="card">
+      <div id="greeting">
+<center><b>
+          Tambahan
+        </b></center>
+        Dari Seseorang Pada Tahun 2025:
+        <br><br>
+        Ntah apa yang aku pikirin sampe aku bikin ini setiap tahun dan aku ga pernah kirim ini ke kamu, rasa bersalah aku ke kamu gabisa aku ilangin, jujur aku takut banget ngobrol sama kamu, aku takut bikin kamu risih kalo ngobrol sama aku, jujur aku juga selalu pengen ngobrol sama kamu tapi gengsi buat ngobrolnya, aku benci sama diri aku yang ga berani buat ngobrol sesuatu sama kamu.
+        <br>
+        Kaya yang udah aku bilang di halaman <a href="../Lovelator/lovelator.html"><strong>Kalkulator</strong></a> maaf karna udah lari dari segala masalah...
+      </div>
+    </div>
+  </div>
+
+  <button class="back-btn" onclick="window.location.href='../menu.html'">⬅ Kembali ke Menu</button>
 </div>
 
 <script>
@@ -133,6 +217,7 @@
   const messageSection=document.getElementById('message-section');
   const flame=document.getElementById('flame');
   const candle=document.getElementById('candle');
+  const cards=document.querySelectorAll('.card');
 
   countdownEl.textContent=count;
   const timer=setInterval(()=>{
@@ -152,10 +237,17 @@
     messageSection.classList.remove('hidden');
     updateTimeSince();
     setInterval(updateTimeSince,1000);
+
+    // animasi fade-in berurutan
+    cards.forEach((card, index) => {
+      setTimeout(() => {
+        card.classList.add('show');
+      }, index * 600); // jeda 0.6 detik antar card
+    });
   });
 
   function updateTimeSince(){
-    const start=new Date('2011-09-11T00:00:00');
+    const start=new Date('2009-03-30T00:00:00');
     const now=new Date();
     let diff=Math.floor((now-start)/1000);
     const years=Math.floor(diff/(60*60*24*365));
@@ -167,7 +259,7 @@
     const minutes=Math.floor(diff/60);
     const seconds=diff%60;
     document.getElementById('time-since').textContent=
-      `Sudah ${years} tahun ${days} hari ${hours} jam ${minutes} menit ${seconds} detik sejak kelahiran wanita tercantik kedua setelah ibuku.`;
+      `Sudah ${years} tahun ${days} hari ${hours} jam ${minutes} menit ${seconds} detik sejak kelahiran wanita tercantik dan termanis kedua setelah ibuku.`;
   }
 </script>
 

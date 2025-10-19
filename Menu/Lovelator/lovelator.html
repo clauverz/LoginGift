@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -8,7 +8,12 @@
 </head>
 <body>
   <div class="calculator">
+    <div class="container">
+      <p id="secret-message">Gunakan seluruh +,-,x,:, pada angka 3 dan 0, contohnya 3+0, 0 + 3, 3-0, 0-3 lakukan itu pada perkalian dan juga pembagian.</p>
+    </div>
+    
     <input type="text" id="display" disabled>
+
     <div class="buttons">
       <button>7</button>
       <button>8</button>
@@ -27,10 +32,13 @@
       <button>=</button>
       <button>:</button>
       <button>C</button>
-      <button id="yes-btn" class="hidden">Yes</button>
-      <button id="no-btn" class="hidden">No</button>
+
+      <!-- tombol rahasia -->
+      <button id="yes-btn" class="hidden">Yes 💚</button>
+      <button id="no-btn" class="hidden">No 💔</button>
     </div>
   </div>
+
   <script src="main.js"></script>
 </body>
 </html>

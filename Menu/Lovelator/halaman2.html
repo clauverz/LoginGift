@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Forgive</title>
+  <link rel="icon" type="image/x-icon" href="Halaman1.ico">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+    * {
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      background-image: url('https://raw.githubusercontent.com/DzarelDeveloper/Img/refs/heads/main/IMG-20240928-WA0027.jpg'); /* Ganti dengan URL gambar latar belakang */
+      background-size: cover;
+      background-position: center;
+      color: #fff;
+      padding: 0 0 50px 0;
+       overflow-y: auto; /* ✅ ini memungkinkan scroll di Android */
+    }
+
+    .countdown-container {
+      text-align: center;
+    }
+
+    .countdown-container h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .countdown {
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+
+    .next-screen {
+      display: none; /* Awalnya disembunyikan */
+      text-align: center;
+      background-color: rgba(255, 192, 203, 0.9); /* Warna pink dengan transparansi */
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      margin: 0 15px;
+    }
+
+    .next-screen h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .next-screen p {
+      font-size: 1.2rem;
+      color: #333;
+      margin-bottom: 20px; /* Tambahkan margin bawah untuk memberi jarak dengan tombol */
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px; /* Tambahkan margin atas untuk memberi jarak dengan paragraf */
+    }
+
+    #whatsapp-button {
+      background: linear-gradient(45deg, #ff9a9e, #fad0c4); 
+      border: none;
+      padding: 15px 30px;
+      font-size: 1rem;
+      color: #333; 
+      border-radius: 25px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: background 0.3s ease;
+    }
+
+    #whatsapp-button:hover {
+      background: linear-gradient(45deg, #fad0c4, #ff9a9e);       
+    }
+    @media (max-width: 768px) {
+    .countdown-container h1,
+    next-screen h1 {
+    font-size: 2rem;
+    margin-top: 40px; /* ✅ beri jarak dari atas layar */
+  }
+
+  .countdown-container {
+    margin-top: 20px;
+  }
+
+  .next-screen {
+    padding: 15px;
+    margin-top: 40px;
+  }
+}
+    
+  </style>
+</head>
+<body>
+  <div class="countdown-container" id="countdownContainer">
+    <h1>Countdown</h1>
+    <div class="countdown" id="countdown">00</div>
+  </div>
+
+  <div class="next-screen" id="nextScreen">
+    <h1>Hii</h1>
+    <p>
+      Bagi aku... wajar si ga dimaafin, aku udah terlalu banyak bikin kamu sakit, aku tiba tiba ngilang waktu itu, lari dari masalah yang seharusnya kita obrolin baik baik, terlalu ke kanak kanak an pengen selalu di ngertiin, seharusnya aku ga di maafin, tapi semisal aku udaa di maafin makasii banyakk yaa... 
+    </p>
+    <div class="button-container">
+      <button id="whatsapp-button" onclick="window.location.href='https://wa.me/6282114073679?text= '">Send Message </button>
+      <button id="whatsapp-button" onclick="window.location.href='../menu.html'">Back To Menu </button>
+      <button id="whatsapp-button" onclick="window.location.href='halaman1.html'">Forgive </button>
+    </div>
+  </div>
+
+  <script>
+    // Waktu countdown (3 detik)
+    let timeLeft = 0;
+    const countdownElement = document.getElementById('countdown');
+    const countdownContainer = document.getElementById('countdownContainer');
+    const nextScreenElement = document.getElementById('nextScreen');
+
+    function updateCountdown() {
+      countdownElement.textContent = String(timeLeft).padStart(2, '0');
+
+      if (timeLeft <= 0) {
+        clearInterval(countdownInterval);
+        countdownContainer.style.display = 'none'; // Sembunyikan countdown
+        nextScreenElement.style.display = 'block'; // Tampilkan layar berikutnya
+      } else {
+        timeLeft--;
+      }
+    }
+
+    // Mulai countdown
+    const countdownInterval = setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>

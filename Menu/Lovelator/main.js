@@ -25,23 +25,26 @@ function toggleYesNoButtons(show) {
 function calculate() {
   try {
     let expression = display.value.replace(/×/g, '*').replace(/:/g, '/');
-    if ('1+4'.includes(expression)) {
-      display.value = 'I love you 💞';
-    } else if ('4+1'.includes(expression)) {
-      display.value = 'manis banget si kamu';
-    } else if ('1*4'.includes(expression)) {
-      display.value = 'kiw kiw sayangg';
-    } else if ('4*1'.includes(expression)) {
-      display.value = 'cantikknyaa akuu?';
-    } else if ('1-4'.includes(expression)) {
-      display.value = 'u are so cutee';
-    } else if ('4-1'.includes(expression)) {
-      display.value = 'miawww 💞';
-    } else if ('1/4'.includes(expression)) {
-      display.value = 'manaa centilnyaa 😡';
+    if ('0+3'.includes(expression)) {
+      display.value = 'Maaf';
+    } else if ('3+0'.includes(expression)) {
+      display.value = 'Maaf Hani...';
+    } else if ('0*3'.includes(expression)) {
+      display.value = 'I still love u';
+    } else if ('3*0'.includes(expression)) {
+      display.value = 'Maaf untuk ratusan kalinya';
+    } else if ('0-3'.includes(expression)) {
+      display.value = 'maafin aku';
+    } else if ('3-0'.includes(expression)) {
+      display.value = 'soo sorry';
+    } else if ('0/3'.includes(expression)) {
+      display.value = 'for everything...';
+    } else if ('300309'.includes(expression)) {
+      alert ('Hari Kelahiran Wanita Termanis');
     }
-    else if ('4/1'.includes(expression)) {
-      display.value = 'can u be mine? 😘😘';
+    else if ('3/0'.includes(expression)) {
+      toggleYesNoButtons(true); 
+      display.value = 'Do you forgive me?';
       toggleYesNoButtons(true); 
     }
     else {
@@ -72,6 +75,6 @@ yesBtn.addEventListener('click', () => {
 
 // Event listener untuk tombol No
 noBtn.addEventListener('click', () => {
-  display.value = 'please say yes 😢';
+  window.location = 'halaman2.html';
   toggleYesNoButtons(false); // Sembunyikan tombol Yes dan No setelah No diklik
 });
